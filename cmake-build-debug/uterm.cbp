@@ -87,6 +87,48 @@
 		<Unit filename="/home/radek/CLionProjects/uterm/main.cpp">
 			<Option target="uterm"/>
 		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/analyzer/CommadAnalyzer.cpp">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/analyzer/CommadAnalyzer.h">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/analyzer/Lexer.cpp">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/analyzer/Lexer.h">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/analyzer/Parser.cpp">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/analyzer/Parser.h">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/executor/CommandExecutor.cpp">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/executor/CommandExecutor.h">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/flow/ExecutionFlowManager.cpp">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/flow/ExecutionFlowManager.h">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/util/PipeInputStream.cpp">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/util/PipeInputStream.h">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/util/PipeOutputStream.cpp">
+			<Option target="uterm"/>
+		</Unit>
+		<Unit filename="/home/radek/CLionProjects/uterm/src/util/PipeOutputStream.h">
+			<Option target="uterm"/>
+		</Unit>
 		<Unit filename="/home/radek/CLionProjects/uterm/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

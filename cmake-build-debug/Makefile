@@ -150,6 +150,195 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/analyzer/CommadAnalyzer.o: src/analyzer/CommadAnalyzer.cpp.o
+
+.PHONY : src/analyzer/CommadAnalyzer.o
+
+# target to build an object file
+src/analyzer/CommadAnalyzer.cpp.o:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.o
+.PHONY : src/analyzer/CommadAnalyzer.cpp.o
+
+src/analyzer/CommadAnalyzer.i: src/analyzer/CommadAnalyzer.cpp.i
+
+.PHONY : src/analyzer/CommadAnalyzer.i
+
+# target to preprocess a source file
+src/analyzer/CommadAnalyzer.cpp.i:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.i
+.PHONY : src/analyzer/CommadAnalyzer.cpp.i
+
+src/analyzer/CommadAnalyzer.s: src/analyzer/CommadAnalyzer.cpp.s
+
+.PHONY : src/analyzer/CommadAnalyzer.s
+
+# target to generate assembly for a file
+src/analyzer/CommadAnalyzer.cpp.s:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.s
+.PHONY : src/analyzer/CommadAnalyzer.cpp.s
+
+src/analyzer/Lexer.o: src/analyzer/Lexer.cpp.o
+
+.PHONY : src/analyzer/Lexer.o
+
+# target to build an object file
+src/analyzer/Lexer.cpp.o:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.o
+.PHONY : src/analyzer/Lexer.cpp.o
+
+src/analyzer/Lexer.i: src/analyzer/Lexer.cpp.i
+
+.PHONY : src/analyzer/Lexer.i
+
+# target to preprocess a source file
+src/analyzer/Lexer.cpp.i:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.i
+.PHONY : src/analyzer/Lexer.cpp.i
+
+src/analyzer/Lexer.s: src/analyzer/Lexer.cpp.s
+
+.PHONY : src/analyzer/Lexer.s
+
+# target to generate assembly for a file
+src/analyzer/Lexer.cpp.s:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.s
+.PHONY : src/analyzer/Lexer.cpp.s
+
+src/analyzer/Parser.o: src/analyzer/Parser.cpp.o
+
+.PHONY : src/analyzer/Parser.o
+
+# target to build an object file
+src/analyzer/Parser.cpp.o:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.o
+.PHONY : src/analyzer/Parser.cpp.o
+
+src/analyzer/Parser.i: src/analyzer/Parser.cpp.i
+
+.PHONY : src/analyzer/Parser.i
+
+# target to preprocess a source file
+src/analyzer/Parser.cpp.i:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.i
+.PHONY : src/analyzer/Parser.cpp.i
+
+src/analyzer/Parser.s: src/analyzer/Parser.cpp.s
+
+.PHONY : src/analyzer/Parser.s
+
+# target to generate assembly for a file
+src/analyzer/Parser.cpp.s:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.s
+.PHONY : src/analyzer/Parser.cpp.s
+
+src/executor/CommandExecutor.o: src/executor/CommandExecutor.cpp.o
+
+.PHONY : src/executor/CommandExecutor.o
+
+# target to build an object file
+src/executor/CommandExecutor.cpp.o:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.o
+.PHONY : src/executor/CommandExecutor.cpp.o
+
+src/executor/CommandExecutor.i: src/executor/CommandExecutor.cpp.i
+
+.PHONY : src/executor/CommandExecutor.i
+
+# target to preprocess a source file
+src/executor/CommandExecutor.cpp.i:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.i
+.PHONY : src/executor/CommandExecutor.cpp.i
+
+src/executor/CommandExecutor.s: src/executor/CommandExecutor.cpp.s
+
+.PHONY : src/executor/CommandExecutor.s
+
+# target to generate assembly for a file
+src/executor/CommandExecutor.cpp.s:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.s
+.PHONY : src/executor/CommandExecutor.cpp.s
+
+src/flow/ExecutionFlowManager.o: src/flow/ExecutionFlowManager.cpp.o
+
+.PHONY : src/flow/ExecutionFlowManager.o
+
+# target to build an object file
+src/flow/ExecutionFlowManager.cpp.o:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.o
+.PHONY : src/flow/ExecutionFlowManager.cpp.o
+
+src/flow/ExecutionFlowManager.i: src/flow/ExecutionFlowManager.cpp.i
+
+.PHONY : src/flow/ExecutionFlowManager.i
+
+# target to preprocess a source file
+src/flow/ExecutionFlowManager.cpp.i:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.i
+.PHONY : src/flow/ExecutionFlowManager.cpp.i
+
+src/flow/ExecutionFlowManager.s: src/flow/ExecutionFlowManager.cpp.s
+
+.PHONY : src/flow/ExecutionFlowManager.s
+
+# target to generate assembly for a file
+src/flow/ExecutionFlowManager.cpp.s:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.s
+.PHONY : src/flow/ExecutionFlowManager.cpp.s
+
+src/util/PipeInputStream.o: src/util/PipeInputStream.cpp.o
+
+.PHONY : src/util/PipeInputStream.o
+
+# target to build an object file
+src/util/PipeInputStream.cpp.o:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.o
+.PHONY : src/util/PipeInputStream.cpp.o
+
+src/util/PipeInputStream.i: src/util/PipeInputStream.cpp.i
+
+.PHONY : src/util/PipeInputStream.i
+
+# target to preprocess a source file
+src/util/PipeInputStream.cpp.i:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.i
+.PHONY : src/util/PipeInputStream.cpp.i
+
+src/util/PipeInputStream.s: src/util/PipeInputStream.cpp.s
+
+.PHONY : src/util/PipeInputStream.s
+
+# target to generate assembly for a file
+src/util/PipeInputStream.cpp.s:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.s
+.PHONY : src/util/PipeInputStream.cpp.s
+
+src/util/PipeOutputStream.o: src/util/PipeOutputStream.cpp.o
+
+.PHONY : src/util/PipeOutputStream.o
+
+# target to build an object file
+src/util/PipeOutputStream.cpp.o:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.o
+.PHONY : src/util/PipeOutputStream.cpp.o
+
+src/util/PipeOutputStream.i: src/util/PipeOutputStream.cpp.i
+
+.PHONY : src/util/PipeOutputStream.i
+
+# target to preprocess a source file
+src/util/PipeOutputStream.cpp.i:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.i
+.PHONY : src/util/PipeOutputStream.cpp.i
+
+src/util/PipeOutputStream.s: src/util/PipeOutputStream.cpp.s
+
+.PHONY : src/util/PipeOutputStream.s
+
+# target to generate assembly for a file
+src/util/PipeOutputStream.cpp.s:
+	$(MAKE) -f CMakeFiles/uterm.dir/build.make CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.s
+.PHONY : src/util/PipeOutputStream.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,6 +351,27 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/analyzer/CommadAnalyzer.o"
+	@echo "... src/analyzer/CommadAnalyzer.i"
+	@echo "... src/analyzer/CommadAnalyzer.s"
+	@echo "... src/analyzer/Lexer.o"
+	@echo "... src/analyzer/Lexer.i"
+	@echo "... src/analyzer/Lexer.s"
+	@echo "... src/analyzer/Parser.o"
+	@echo "... src/analyzer/Parser.i"
+	@echo "... src/analyzer/Parser.s"
+	@echo "... src/executor/CommandExecutor.o"
+	@echo "... src/executor/CommandExecutor.i"
+	@echo "... src/executor/CommandExecutor.s"
+	@echo "... src/flow/ExecutionFlowManager.o"
+	@echo "... src/flow/ExecutionFlowManager.i"
+	@echo "... src/flow/ExecutionFlowManager.s"
+	@echo "... src/util/PipeInputStream.o"
+	@echo "... src/util/PipeInputStream.i"
+	@echo "... src/util/PipeInputStream.s"
+	@echo "... src/util/PipeOutputStream.o"
+	@echo "... src/util/PipeOutputStream.i"
+	@echo "... src/util/PipeOutputStream.s"
 .PHONY : help
 
 

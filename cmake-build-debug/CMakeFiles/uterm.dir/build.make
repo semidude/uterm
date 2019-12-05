@@ -70,17 +70,122 @@ CMakeFiles/uterm.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/uterm.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radek/CLionProjects/uterm/main.cpp -o CMakeFiles/uterm.dir/main.cpp.s
 
+CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.o: CMakeFiles/uterm.dir/flags.make
+CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.o: ../src/analyzer/CommadAnalyzer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.o -c /home/radek/CLionProjects/uterm/src/analyzer/CommadAnalyzer.cpp
+
+CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radek/CLionProjects/uterm/src/analyzer/CommadAnalyzer.cpp > CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.i
+
+CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radek/CLionProjects/uterm/src/analyzer/CommadAnalyzer.cpp -o CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.s
+
+CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.o: CMakeFiles/uterm.dir/flags.make
+CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.o: ../src/analyzer/Lexer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.o -c /home/radek/CLionProjects/uterm/src/analyzer/Lexer.cpp
+
+CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radek/CLionProjects/uterm/src/analyzer/Lexer.cpp > CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.i
+
+CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radek/CLionProjects/uterm/src/analyzer/Lexer.cpp -o CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.s
+
+CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.o: CMakeFiles/uterm.dir/flags.make
+CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.o: ../src/analyzer/Parser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.o -c /home/radek/CLionProjects/uterm/src/analyzer/Parser.cpp
+
+CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radek/CLionProjects/uterm/src/analyzer/Parser.cpp > CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.i
+
+CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radek/CLionProjects/uterm/src/analyzer/Parser.cpp -o CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.s
+
+CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.o: CMakeFiles/uterm.dir/flags.make
+CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.o: ../src/flow/ExecutionFlowManager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.o -c /home/radek/CLionProjects/uterm/src/flow/ExecutionFlowManager.cpp
+
+CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radek/CLionProjects/uterm/src/flow/ExecutionFlowManager.cpp > CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.i
+
+CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radek/CLionProjects/uterm/src/flow/ExecutionFlowManager.cpp -o CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.s
+
+CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.o: CMakeFiles/uterm.dir/flags.make
+CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.o: ../src/executor/CommandExecutor.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.o -c /home/radek/CLionProjects/uterm/src/executor/CommandExecutor.cpp
+
+CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radek/CLionProjects/uterm/src/executor/CommandExecutor.cpp > CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.i
+
+CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radek/CLionProjects/uterm/src/executor/CommandExecutor.cpp -o CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.s
+
+CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.o: CMakeFiles/uterm.dir/flags.make
+CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.o: ../src/util/PipeInputStream.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.o -c /home/radek/CLionProjects/uterm/src/util/PipeInputStream.cpp
+
+CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radek/CLionProjects/uterm/src/util/PipeInputStream.cpp > CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.i
+
+CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radek/CLionProjects/uterm/src/util/PipeInputStream.cpp -o CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.s
+
+CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.o: CMakeFiles/uterm.dir/flags.make
+CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.o: ../src/util/PipeOutputStream.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.o -c /home/radek/CLionProjects/uterm/src/util/PipeOutputStream.cpp
+
+CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radek/CLionProjects/uterm/src/util/PipeOutputStream.cpp > CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.i
+
+CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radek/CLionProjects/uterm/src/util/PipeOutputStream.cpp -o CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.s
+
 # Object files for target uterm
 uterm_OBJECTS = \
-"CMakeFiles/uterm.dir/main.cpp.o"
+"CMakeFiles/uterm.dir/main.cpp.o" \
+"CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.o" \
+"CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.o" \
+"CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.o" \
+"CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.o" \
+"CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.o" \
+"CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.o" \
+"CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.o"
 
 # External object files for target uterm
 uterm_EXTERNAL_OBJECTS =
 
 uterm: CMakeFiles/uterm.dir/main.cpp.o
+uterm: CMakeFiles/uterm.dir/src/analyzer/CommadAnalyzer.cpp.o
+uterm: CMakeFiles/uterm.dir/src/analyzer/Lexer.cpp.o
+uterm: CMakeFiles/uterm.dir/src/analyzer/Parser.cpp.o
+uterm: CMakeFiles/uterm.dir/src/flow/ExecutionFlowManager.cpp.o
+uterm: CMakeFiles/uterm.dir/src/executor/CommandExecutor.cpp.o
+uterm: CMakeFiles/uterm.dir/src/util/PipeInputStream.cpp.o
+uterm: CMakeFiles/uterm.dir/src/util/PipeOutputStream.cpp.o
 uterm: CMakeFiles/uterm.dir/build.make
 uterm: CMakeFiles/uterm.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable uterm"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable uterm"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/uterm.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
