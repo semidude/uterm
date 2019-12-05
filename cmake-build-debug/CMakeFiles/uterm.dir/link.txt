@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/uterm.dir/main.cpp.o  -o uterm 
