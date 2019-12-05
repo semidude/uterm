@@ -1,3 +1,0 @@
-/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles/uterm.dir
-/home/radek/CLionProjects/uterm/cmake-build-debug/CMakeFiles/edit_cache.dir
