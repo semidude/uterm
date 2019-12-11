@@ -1,9 +1,9 @@
 # uterm - a simple terminal
 
-####A simple terminal, based on Unix _bash_ terminal
+A simple terminal, based on Unix _bash_ terminal
 Developed as a university project for a 'Unix - programming and administering' ('UXP') subject
 
-####Podstawowe funkcje implementowanego terminala:
+**Podstawowe funkcje implementowanego terminala:**
 - możliwość uruchamiania zewnętrznych programów w postaci potoku arbitralnej długości
 - obsługa poleceń wbudowanych cd, pwd i echo
 - możliwość przekierowania wejścia/wyjścia do plików
@@ -14,7 +14,7 @@ Developed as a university project for a 'Unix - programming and administering' (
 
 **W przypadku wątpliwości przy realizacji, program będzie bazował na shellu _sh/bash._**
 
-####Uproszczony podział na moduły oraz przepływ wykonania programu:
+**Uproszczony podział na moduły oraz przepływ wykonania programu:**
 _Użytkownik wprowadza polecenie_
 
 Moduł analizy polecenia (Lekser -> Parser)
