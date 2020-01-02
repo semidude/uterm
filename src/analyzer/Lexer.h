@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 //
 // Created by radek on 05.12.2019.
 //
@@ -6,54 +10,43 @@
 #define UTERM_LEXER_H
 
 #include "Source.h"
+#include "Token.h"
 
-class Token {
-private:
-    TokenDescriptor descriptor;
-
-public:
-    Token(TokenDescriptor descriptor) {
-        this->descriptor = descriptor;
-    }
-
-    TokenDescriptor getDescriptor() {
-        return descriptor;
-    }
-};
-
-enum TokenDescriptor {
-    PIPE_SEPARATOR = "|",
-    REDIRECT_LEFT = "<",
-    REDIRECT_RIGHT = ">",
-    ASSIGN_OPERATOR = "=",
-    VALUE_EXTRACTOR = "$",
-    EXPORT_KW = "export",
-    INTERNAL_COMMAND = "cd" | "pwd" | "echo" | "exit",
-    STATEMENT_SEPARATOR = ";",
-    APOSTROPHE = "'",
-    NEWLINE = "\n",
-    HD_MARKER = "<<",
-    //STRING = ".+",
-    //WORD = "\w+",
-    //NUMBER = \d+,
-    //VAR_NAME = [a-zA-Z_]\w*,
-};
 
 class Lexer {
 private:
     Source source;
 
+    Token currentToken;
+    std::string currentTokenValue;
+
+    char currentCharacter;
+
 public:
-    Lexer(Source source) {
-        this->source = source;
-    }
+    explicit Lexer(Source source);
 
     Token getNextToken();
 
 private:
-    bool isLetter(char c);
-    bool isDigit(char c);
-    bool isEOF(char c);
+    void tryProcessingSpecialCharacter();
+
+    void tryProcessingInternalCommand();
+
+    void tryProcessingNumber();
+
+    void tryProcessingWord();
+
+    void processString();
+
+    void resetCurrentTokenState();
+
+    void eatWhitespaces();
+
+    void readNextChar();
+
+    bool wasTokenTypeSelected();
+
+    void readCharsUntilWhitespace();
 };
 
 #endif //UTERM_LEXER_H

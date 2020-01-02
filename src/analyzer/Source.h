@@ -6,10 +6,12 @@
 #define UTERM_SOURCE_H
 
 
+#include <string>
+
 class Source {
 private:
     std::string source;
-    int pos = 0;
+    int currentReadPosition = 0;
 
 public:
     Source(std::string source) {
@@ -17,7 +19,15 @@ public:
     }
 
     char getNextChar() {
-        return source[pos++];
+        return source[currentReadPosition++];
+    }
+
+    char peekNextChar() {
+        return source[currentReadPosition];
+    }
+
+    bool dataAvailable() {
+        return source.size() > currentReadPosition;
     }
 };
 

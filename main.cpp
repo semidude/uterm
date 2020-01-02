@@ -2,7 +2,7 @@
 
 int main() {
 
-    string command;
+    std::string command;
     std::cout << "=== uterm, a simple terminal ===" << std::endl;
     std::cout << "$ ";
     std::cin >> command;
