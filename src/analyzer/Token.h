@@ -6,6 +6,8 @@
 #define UTERM_TOKEN_H
 
 #include <string>
+#include <ostream>
+#include <utility>
 
 enum TokenDescriptor {
     NONE,
@@ -24,7 +26,6 @@ enum TokenDescriptor {
     ECHO_COMMAND,           // expected string : "echo"
     EXIT_COMMAND,           // expected string : "exit"
     WORD,                   // expected string : "\w+",
-    NUMBER,                 // expected string : \d+,
     STRING                  // expected string : ".+",
 };
 
@@ -34,13 +35,27 @@ private:
     std::string value;
 
 public:
-    Token(TokenDescriptor descriptor, std::string tokenValue);
+    Token(TokenDescriptor descriptor, std::string value): descriptor(descriptor), value(std::move(value)) {}
 
-    Token(TokenDescriptor descriptor);
+    explicit Token(TokenDescriptor descriptor): descriptor(descriptor) {}
 
-    Token();
+    Token(): descriptor(TokenDescriptor::NONE) {}
 
-    TokenDescriptor getDescriptor();
+    TokenDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    std::string getValue() {
+        return value;
+    }
+
+    bool operator==(const Token& other) const {
+        return descriptor == other.descriptor && value == other.value;
+    }
+
+    friend std::ostream& operator<<(std::ostream& out, const Token& token) {
+        return out << token.descriptor << "(" << token.value << ")";
+    }
 };
 
 

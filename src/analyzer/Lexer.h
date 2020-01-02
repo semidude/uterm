@@ -32,8 +32,6 @@ private:
 
     void tryProcessingInternalCommand();
 
-    void tryProcessingNumber();
-
     void tryProcessingWord();
 
     void processString();

@@ -19,17 +19,17 @@ BOOST_AUTO_TEST_CASE(internal_commands_test) {
 
     Lexer lexer = Lexer(source);
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::EXPORT_KEYWORD);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::EXPORT_KEYWORD));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::CD_COMMAND);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::CD_COMMAND));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::PWD_COMMAND);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::PWD_COMMAND));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::ECHO_COMMAND);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::ECHO_COMMAND));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::EXIT_COMMAND);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::EXIT_COMMAND));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::WORD);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "XAXAXA"));
 }
 
 BOOST_AUTO_TEST_CASE(string_and_number_test) {
@@ -37,17 +37,17 @@ BOOST_AUTO_TEST_CASE(string_and_number_test) {
 
     Lexer lexer = Lexer(source);
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::NUMBER);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "123"));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::WORD);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "123asd"));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::WORD);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "ASDsdaw12"));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::STRING);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::STRING, "@123sadd"));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::STRING);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::STRING, "XAXAXA0912*5"));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::NUMBER);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "0123557687890"));
 }
 
 BOOST_AUTO_TEST_CASE(special_chars_test) {
@@ -55,21 +55,21 @@ BOOST_AUTO_TEST_CASE(special_chars_test) {
 
     Lexer lexer = Lexer(source);
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::PIPE_SEPARATOR);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::PIPE_SEPARATOR));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::REDIRECT_LEFT);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::REDIRECT_LEFT));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::REDIRECT_RIGHT);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::REDIRECT_RIGHT));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::HERE_DOCUMENT_MARKER);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::HERE_DOCUMENT_MARKER));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::ASSIGN_OPERATOR);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::ASSIGN_OPERATOR));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::VALUE_EXTRACTOR);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::VALUE_EXTRACTOR));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::STATEMENT_SEPARATOR);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::STATEMENT_SEPARATOR));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::APOSTROPHE);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::APOSTROPHE));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken().getDescriptor(), TokenDescriptor::NEWLINE);
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::NEWLINE));
 }
