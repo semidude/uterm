@@ -21,13 +21,13 @@ BOOST_AUTO_TEST_CASE(internal_commands_test) {
 
     BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::EXPORT_KEYWORD));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::CD_COMMAND));
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "cd"));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::PWD_COMMAND));
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "pwd"));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::ECHO_COMMAND));
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "echo"));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::EXIT_COMMAND));
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "exit"));
 
     BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "XAXAXA"));
 }
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(string_and_number_test) {
 
     Lexer lexer = Lexer(source);
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "123"));
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::NUMBER, "123"));
 
     BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "123asd"));
 
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE(string_and_number_test) {
 
     BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::STRING, "XAXAXA0912*5"));
 
-    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "0123557687890"));
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::NUMBER, "0123557687890"));
 }
 
 BOOST_AUTO_TEST_CASE(special_chars_test) {

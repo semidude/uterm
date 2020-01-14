@@ -13,7 +13,8 @@ Token Lexer::getNextToken() {
 
     readCharsUntilWhitespace();
 
-    tryProcessingInternalCommand();
+    tryProcessingKeyword();
+    tryProcessingNumber();
     tryProcessingWord();
     processString();
 
@@ -41,41 +42,41 @@ void Lexer::readNextChar() {
 void Lexer::tryProcessingSpecialCharacter() {
     switch (currentCharacter) {
         case '|':
-            currentToken = Token(TokenDescriptor::PIPE_SEPARATOR);
+            currentToken = Token(PIPE_SEPARATOR);
             break;
 
         case '<':
             if (source.peekNextChar() == '<') {
                 readNextChar();
-                currentToken = Token(TokenDescriptor::HERE_DOCUMENT_MARKER);
+                currentToken = Token(HERE_DOCUMENT_MARKER);
             }
             else {
-                currentToken = Token(TokenDescriptor::REDIRECT_LEFT);
+                currentToken = Token(REDIRECT_LEFT);
             }
             break;
 
         case '>':
-            currentToken = Token(TokenDescriptor::REDIRECT_RIGHT);
+            currentToken = Token(REDIRECT_RIGHT);
             break;
 
         case '=':
-            currentToken = Token(TokenDescriptor::ASSIGN_OPERATOR);
+            currentToken = Token(ASSIGN_OPERATOR);
             break;
 
         case '$':
-            currentToken = Token(TokenDescriptor::VALUE_EXTRACTOR);
+            currentToken = Token(VALUE_EXTRACTOR);
             break;
 
         case ';':
-            currentToken = Token(TokenDescriptor::STATEMENT_SEPARATOR);
+            currentToken = Token(STATEMENT_SEPARATOR);
             break;
 
         case '\'':
-            currentToken = Token(TokenDescriptor::APOSTROPHE);
+            currentToken = Token(APOSTROPHE);
             break;
 
         case '\n': // check if NEWLINE : \n
-            currentToken = Token(TokenDescriptor::NEWLINE);
+            currentToken = Token(NEWLINE);
             break;
     }
 }
@@ -86,24 +87,25 @@ void Lexer::readCharsUntilWhitespace() {
     }
 }
 
-void Lexer::tryProcessingInternalCommand() {
+void Lexer::tryProcessingKeyword() {
     if (wasTokenTypeSelected()) return;
 
     if (currentTokenValue == "export") {
-        currentToken = Token(TokenDescriptor::EXPORT_KEYWORD);
+        currentToken = Token(EXPORT_KEYWORD);
     }
-    else if (currentTokenValue == "cd") {
-        currentToken = Token(TokenDescriptor::CD_COMMAND);
+    else if (currentTokenValue == "def") {
+        currentToken = Token(DEF_KEYWORD);
     }
-    else if (currentTokenValue == "pwd") {
-        currentToken = Token(TokenDescriptor::PWD_COMMAND);
+}
+
+void Lexer::tryProcessingNumber() {
+    if (wasTokenTypeSelected()) return;
+
+    for (char c : currentTokenValue) {
+        if (!isdigit(c)) return;
     }
-    else if (currentTokenValue == "echo") {
-        currentToken = Token(TokenDescriptor::ECHO_COMMAND);
-    }
-    else if (currentTokenValue == "exit") {
-        currentToken = Token(TokenDescriptor::EXIT_COMMAND);
-    }
+
+    currentToken = Token(NUMBER, currentTokenValue);
 }
 
 void Lexer::tryProcessingWord() {
@@ -113,15 +115,15 @@ void Lexer::tryProcessingWord() {
         if (!isalnum(c)) return;
     }
 
-    currentToken = Token(TokenDescriptor::WORD, currentTokenValue);
+    currentToken = Token(WORD, currentTokenValue);
 }
 
 void Lexer::processString() { // if not already matched then string is only option
     if (wasTokenTypeSelected()) return;
 
-    currentToken = Token(TokenDescriptor::STRING, currentTokenValue);
+    currentToken = Token(STRING, currentTokenValue);
 }
 
 bool Lexer::wasTokenTypeSelected() {
-    return currentToken.getDescriptor() != TokenDescriptor::NONE;
+    return currentToken.descriptor != NONE;
 }

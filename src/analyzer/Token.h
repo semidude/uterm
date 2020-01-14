@@ -21,33 +21,21 @@ enum TokenDescriptor {
     NEWLINE,                // expected string : "\n",
     HERE_DOCUMENT_MARKER,   // expected string : "<<",
     EXPORT_KEYWORD,         // expected string : "export",
-    CD_COMMAND,             // expected string : "cd"
-    PWD_COMMAND,            // expected string : "pwd"
-    ECHO_COMMAND,           // expected string : "echo"
-    EXIT_COMMAND,           // expected string : "exit"
+    DEF_KEYWORD,            // expected string : "def"
+    NUMBER,                 // expected string : "\d+"
     WORD,                   // expected string : "\w+",
     STRING                  // expected string : ".+",
 };
 
-class Token {
-private:
+struct Token {
     TokenDescriptor descriptor;
     std::string value;
 
-public:
     Token(TokenDescriptor descriptor, std::string value): descriptor(descriptor), value(std::move(value)) {}
 
     explicit Token(TokenDescriptor descriptor): descriptor(descriptor) {}
 
     Token(): descriptor(TokenDescriptor::NONE) {}
-
-    TokenDescriptor getDescriptor() {
-        return descriptor;
-    }
-
-    std::string getValue() {
-        return value;
-    }
 
     bool operator==(const Token& other) const {
         return descriptor == other.descriptor && value == other.value;
@@ -55,6 +43,10 @@ public:
 
     friend std::ostream& operator<<(std::ostream& out, const Token& token) {
         return out << token.descriptor << "(" << token.value << ")";
+    }
+
+    std::string toString() {
+        return value;
     }
 };
 

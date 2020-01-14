@@ -30,7 +30,9 @@ public:
 private:
     void tryProcessingSpecialCharacter();
 
-    void tryProcessingInternalCommand();
+    void tryProcessingKeyword();
+
+    void tryProcessingNumber();
 
     void tryProcessingWord();
 
