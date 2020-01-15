@@ -23,6 +23,10 @@ struct RedirectedCmdCall: public Statement {
 
         if (redirection != nullptr) redirection->accept(visitor);
     }
+
+    friend std::ostream &operator<<(std::ostream &os, const RedirectedCmdCall &redirectedCmdCall) {
+        return os << "redirectedCmdCall (" << redirectedCmdCall.pipeCmdCall->cmdCall->cmd << ")" << std::endl;
+    }
 };
 
 

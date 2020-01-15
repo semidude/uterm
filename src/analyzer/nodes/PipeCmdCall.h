@@ -24,6 +24,17 @@ struct PipeCmdCall: public Node {
 
         if (pipeChain != nullptr) pipeChain->accept(visitor);
     }
+
+    friend std::ostream &operator<<(std::ostream &os, const PipeCmdCall &pipeCmdCall) {
+        os << "pipeCmdCall (" << pipeCmdCall.cmdCall->cmd;
+
+        if (pipeCmdCall.pipeChain != nullptr) {
+            os << " | " << pipeCmdCall.pipeChain->cmdCall->cmd;
+        }
+
+        os << ")" << std::endl;
+        return os;
+    }
 };
 
 

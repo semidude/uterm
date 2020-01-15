@@ -17,12 +17,16 @@ private:
 public:
     explicit VarValue(std::string varName) : varName(std::move(varName)) {}
 
-    std::string evaluate() override {
+    std::string evaluate() const override {
         return ""; //TODO...
     }
 
     void accept(Visitor *visitor) override {
         visitor->visit(this);
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const VarValue &varValue) {
+        return os << "varValue.(.." << varValue.evaluate() << ")" << std::endl;
     }
 };
 

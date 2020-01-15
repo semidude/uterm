@@ -17,12 +17,16 @@ private:
 public:
     explicit LiteralValue(std::string value): value(std::move(value)) {}
 
-    std::string evaluate() override {
+    std::string evaluate() const override {
         return value;
     }
 
     void accept(Visitor *visitor) override {
         visitor->visit(this);
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const LiteralValue &literalValue) {
+        return os << "literalValue (" << literalValue.evaluate() << ")" << std::endl;
     }
 };
 

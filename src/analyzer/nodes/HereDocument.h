@@ -20,6 +20,10 @@ struct HereDocument: public Node {
     void accept(Visitor *visitor) override {
         visitor->visit(this);
     }
+
+    friend std::ostream &operator<<(std::ostream &os, const HereDocument &hereDocument) {
+        return os << "hereDocument (" << hereDocument.hdToken << " " << hereDocument.hdContent << " " << hereDocument.hdToken << ")" << std::endl;
+    }
 };
 
 

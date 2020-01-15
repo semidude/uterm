@@ -14,33 +14,33 @@
 #include "../analyzer/nodes/VarValue.h"
 
 void ExecutionFlowManager::visit(VarDef *varDef) {
-    std::cout << "varDef (" << varDef->varName << ")" << std::endl;
+    std::cout << *varDef;
 }
 
 void ExecutionFlowManager::visit(RedirectedCmdCall *redirectedCmdCall) {
-    std::cout << "redirectedCmdCall (" << redirectedCmdCall->pipeCmdCall->cmdCall->cmd << ")" << std::endl;
+    std::cout << *redirectedCmdCall;
 }
 
 void ExecutionFlowManager::visit(PipeCmdCall *pipeCmdCall) {
-    std::cout << "pipeCmdCall (" << pipeCmdCall->cmdCall->cmd << ")" << std::endl;
+    std::cout << *pipeCmdCall;
 }
 
 void ExecutionFlowManager::visit(CmdCall *cmdCall) {
-    std::cout << "cmdCall (" << cmdCall->cmd << ")" << std::endl;
+    std::cout << *cmdCall;
 }
 
 void ExecutionFlowManager::visit(HereDocument *hereDocument) {
-    std::cout << "hereDocument (" << hereDocument->hdToken << " " << hereDocument->hdContent << " " << hereDocument->hdToken << ")" << std::endl;
+    std::cout << *hereDocument;
 }
 
 void ExecutionFlowManager::visit(Redirection *redirection) {
-    std::cout << "redirection (" << redirection->value->evaluate() << ")" << std::endl;
+    std::cout << *redirection;
 }
 
 void ExecutionFlowManager::visit(LiteralValue *literalValue) {
-    std::cout << "literalValue (" << literalValue->evaluate() << ")" << std::endl;
+    std::cout << *literalValue;
 }
 
 void ExecutionFlowManager::visit(VarValue *varValue) {
-    std::cout << "varValue.(.." << varValue->evaluate() << ")" << std::endl;
+    std::cout << *varValue;
 }

@@ -14,6 +14,7 @@ int main() {
 //    std::cin >> command;
 
     Source source("myprog 123 koles <<MARKER\ntresc here documentu\nMARKER | grep ziombel > jakis_pliczek_ziombla.txt; jakis_koles 'witaj gosciu'; def export ZIOMBEL='imie ziombla'");
+
     auto lexer = std::make_unique<Lexer>(source);
 
     auto parser = std::make_unique<Parser>(std::move(lexer));

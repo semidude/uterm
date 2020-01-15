@@ -28,6 +28,10 @@ struct CmdCall: public Node {
 
         if (hereDocument != nullptr) hereDocument->accept(visitor);
     }
+
+    friend std::ostream &operator<<(std::ostream &os, const CmdCall &cmdCall) {
+        return os << "cmdCall (" << cmdCall.cmd << ")" << std::endl;
+    }
 };
 
 

@@ -9,6 +9,7 @@
 #include <string>
 #include <memory>
 #include <utility>
+#include <iostream>
 #include "Statement.h"
 #include "Value.h"
 
@@ -24,6 +25,10 @@ struct VarDef: public Statement {
     void accept(Visitor *visitor) override {
         visitor->visit(this);
         value->accept(visitor);
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const VarDef& varDef) {
+        return os << "varDef (" << varDef.varName << " = " << varDef.value->evaluate() << ")" << std::endl;
     }
 };
 

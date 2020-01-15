@@ -8,6 +8,7 @@
 
 #include <string>
 #include <memory>
+#include <ostream>
 #include "Value.h"
 
 struct Redirection: public Node {
@@ -17,6 +18,10 @@ struct Redirection: public Node {
 
     void accept(Visitor *visitor) override {
         visitor->visit(this);
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const Redirection &redirection) {
+        return os << "redirection (" << redirection.value->evaluate() << ")" << std::endl;
     }
 };
 
