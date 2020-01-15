@@ -8,10 +8,19 @@
 
 #include <vector>
 #include <memory>
+#include "nodes/Node.h"
 #include "nodes/Statement.h"
 
-struct ParseTree {
+struct ParseTree: public Node {
+
     std::vector<std::unique_ptr<Statement>> statements;
+
+    void accept(Visitor *visitor) override {
+
+        for (const auto& statement : statements) {
+            statement->accept(visitor);
+        }
+    }
 };
 
 

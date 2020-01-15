@@ -10,10 +10,14 @@
 #include <memory>
 #include "Value.h"
 
-struct Redirection {
+struct Redirection: public Node {
     std::unique_ptr<Value> value;
 
     explicit Redirection(std::unique_ptr<Value> value) : value(std::move(value)) {}
+
+    void accept(Visitor *visitor) override {
+        visitor->visit(this);
+    }
 };
 
 

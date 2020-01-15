@@ -9,9 +9,10 @@
 #include <string>
 #include <memory>
 #include <utility>
+#include "Statement.h"
 #include "Value.h"
 
-struct VarDef {
+struct VarDef: public Statement {
     std::string varName;
     std::unique_ptr<Value> value;
     bool exported;
@@ -19,6 +20,11 @@ struct VarDef {
     VarDef(std::string varName, std::unique_ptr<Value> value, bool exported) : varName(std::move(varName)),
                                                                                value(std::move(value)),
                                                                                exported(exported) {}
+
+    void accept(Visitor *visitor) override {
+        visitor->visit(this);
+        value->accept(visitor);
+    }
 };
 
 

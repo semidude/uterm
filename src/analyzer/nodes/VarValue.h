@@ -2,23 +2,23 @@
 // Created by Radoslaw Panuszewski on 1/14/20.
 //
 
-#ifndef UTERM_LITERALVALUE_H
-#define UTERM_LITERALVALUE_H
+#ifndef UTERM_VARVALUE_H
+#define UTERM_VARVALUE_H
 
 
 #include "Value.h"
 
 #include <utility>
 
-class LiteralValue: public Value {
+class VarValue: public Value {
 private:
-    std::string value;
+    std::string varName;
 
 public:
-    explicit LiteralValue(std::string value): value(std::move(value)) {}
+    explicit VarValue(std::string varName) : varName(std::move(varName)) {}
 
     std::string evaluate() override {
-        return value;
+        return ""; //TODO...
     }
 
     void accept(Visitor *visitor) override {
@@ -27,4 +27,4 @@ public:
 };
 
 
-#endif //UTERM_LITERALVALUE_H
+#endif //UTERM_VARVALUE_H

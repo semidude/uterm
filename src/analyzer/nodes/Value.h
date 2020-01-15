@@ -10,7 +10,7 @@
 
 enum ValueType {STRING_VALUE, NUMBER_VALUE};
 
-struct Value {
+struct Value: public Node {
 
     virtual std::string evaluate() = 0;
 };

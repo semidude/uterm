@@ -8,12 +8,18 @@
 
 #include <string>
 #include <utility>
+#include "../Visitor.h"
+#include "Node.h"
 
-struct HereDocument {
+struct HereDocument: public Node {
     std::string hdToken;
     std::string hdContent;
 
     HereDocument(std::string hdToken, std::string hdContent) : hdToken(std::move(hdToken)), hdContent(std::move(hdContent)) {}
+
+    void accept(Visitor *visitor) override {
+        visitor->visit(this);
+    }
 };
 
 

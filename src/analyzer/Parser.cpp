@@ -1,14 +1,16 @@
 //
 // Created by radek on 05.12.2019.
 //
+
 #include "Parser.h"
 #include "nodes/PipeCmdCall.h"
 #include "Token.h"
 #include "nodes/Redirection.h"
-#include "nodes/Statement.h"
 #include "nodes/Value.h"
 #include "nodes/LiteralValue.h"
-#include "nodes/VariableValue.h"
+#include "nodes/VarValue.h"
+#include "nodes/VarDef.h"
+#include "nodes/Statement.h"
 
 std::unique_ptr<ParseTree> Parser::parse() {
 
@@ -16,27 +18,33 @@ std::unique_ptr<ParseTree> Parser::parse() {
 
     do {
         advance();
-        parseTree->statements.push_back(parseStatement());
+        parseTree->statements.push_back(parseStatement(parseTree));
     } while (checkToken(STATEMENT_SEPARATOR));
 
     return parseTree;
 }
 
-std::unique_ptr<Statement> Parser::parseStatement() {
-
-    auto statement = std::make_unique<Statement>();
+std::unique_ptr<Statement> Parser::parseStatement(const std::_MakeUniq<ParseTree>::__single_object &parseTree) {
 
     if (checkToken(DEF_KEYWORD)) {
-        statement->varDef = parseVarDef();
+        return parseVarDef();
     }
     else {
-        statement->pipeCmdCall = parsePipeCmdCall();
-
-        if (checkToken(REDIRECT_LEFT, REDIRECT_RIGHT)) {
-            statement->redirection = parseRedirection();
-        }
+        return parseRedirectedCmdCall();
     }
-    return statement;
+}
+
+std::unique_ptr<RedirectedCmdCall> Parser::parseRedirectedCmdCall() {
+
+    auto redirectedCmdCall = std::make_unique<RedirectedCmdCall>();
+
+    redirectedCmdCall->pipeCmdCall = parsePipeCmdCall();
+
+    if (checkToken(REDIRECT_LEFT, REDIRECT_RIGHT)) {
+        redirectedCmdCall->redirection = parseRedirection();
+    }
+
+    return redirectedCmdCall;
 }
 
 std::unique_ptr<PipeCmdCall> Parser::parsePipeCmdCall() {
@@ -137,7 +145,7 @@ std::unique_ptr<Value> Parser::parseValue() {
 std::unique_ptr<Value> Parser::parseValueExtraction() {
     requireToken(VALUE_EXTRACTOR);
     std::string varName = requireToken(WORD).value;
-    return std::make_unique<VariableValue>(varName);
+    return std::make_unique<VarValue>(varName);
 }
 
 std::unique_ptr<Value> Parser::parseLiteral() {

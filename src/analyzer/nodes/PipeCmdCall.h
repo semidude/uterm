@@ -9,11 +9,21 @@
 #include <bits/unique_ptr.h>
 #include "Redirection.h"
 #include "CmdCall.h"
+#include "Node.h"
 
-class PipeCmdCall {
-public:
+struct PipeCmdCall: public Node {
+
     std::unique_ptr<CmdCall> cmdCall;
     std::unique_ptr<PipeCmdCall> pipeChain;
+
+    void accept(Visitor *visitor) override {
+
+        visitor->visit(this);
+
+        cmdCall->accept(visitor);
+
+        if (pipeChain != nullptr) pipeChain->accept(visitor);
+    }
 };
 
 

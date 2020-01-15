@@ -6,8 +6,10 @@
 #define UTERM_NODE_H
 
 
-class Node {
+#include "../Visitor.h"
 
+struct Node {
+    virtual void accept(Visitor *visitor) = 0;
 };
 
 

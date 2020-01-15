@@ -9,13 +9,25 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "Node.h"
 #include "HereDocument.h"
 #include "Value.h"
 
-struct CmdCall {
+struct CmdCall: public Node {
     std::string cmd;
     std::vector<std::unique_ptr<Value>> args;
     std::unique_ptr<HereDocument> hereDocument;
+
+    void accept(Visitor *visitor) override {
+
+        visitor->visit(this);
+
+        for (const auto& arg : args) {
+            arg->accept(visitor);
+        }
+
+        if (hereDocument != nullptr) hereDocument->accept(visitor);
+    }
 };
 
 

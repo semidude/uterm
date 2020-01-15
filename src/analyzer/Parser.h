@@ -15,6 +15,7 @@
 #include "nodes/Value.h"
 #include "Lexer.h"
 #include "nodes/RedirectedCmdCall.h"
+#include "nodes/VarDef.h"
 
 /**
  * STATEMENT = (REDIRECTED_CMD_CALL | VAR_DEF), [STATEMENT_SEPARATOR, STATEMENT]
@@ -72,7 +73,7 @@ public:
     std::unique_ptr<ParseTree> parse();
 
 private:
-    std::unique_ptr<Statement> parseStatement();
+    std::unique_ptr<RedirectedCmdCall> parseRedirectedCmdCall();
     std::unique_ptr<PipeCmdCall> parsePipeCmdCall();
     std::unique_ptr<CmdCall> parseCmdCall();
     std::string parseCmd();
@@ -96,6 +97,8 @@ private:
     Token requireToken(TokenDescriptor descriptor);
     Token requireToken(TokenDescriptor first, TokenDescriptor second);
     Token requireToken(TokenDescriptor first, TokenDescriptor second, TokenDescriptor third);
+
+    std::unique_ptr<Statement> parseStatement(const std::_MakeUniq<ParseTree>::__single_object &parseTree);
 };
 
 

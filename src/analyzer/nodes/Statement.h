@@ -1,19 +1,17 @@
 //
-// Created by Radoslaw Panuszewski on 1/14/20.
+// Created by radek on 15.01.2020.
 //
 
 #ifndef UTERM_STATEMENT_H
 #define UTERM_STATEMENT_H
 
 
-#include "PipeCmdCall.h"
-#include "VarDef.h"
+#include "Node.h"
 
-struct Statement {
-    std::unique_ptr<PipeCmdCall> pipeCmdCall;
-    std::unique_ptr<Redirection> redirection;
-    std::unique_ptr<VarDef> varDef;
+struct Statement: public Node {
+
 };
+
 
 
 #endif //UTERM_STATEMENT_H

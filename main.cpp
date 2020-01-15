@@ -3,6 +3,8 @@
 #include "src/analyzer/Source.h"
 #include "src/analyzer/Lexer.h"
 #include "src/analyzer/Parser.h"
+#include "src/flow/ExecutionFlowManager.h"
+#include "src/executor/CommandExecutor.h"
 
 int main() {
 
@@ -18,7 +20,11 @@ int main() {
 
     auto parseTree = parser->parse();
 
-    std::cout << parseTree->statements[0]->redirection->value->evaluate();
+    auto flowManager = std::make_unique<ExecutionFlowManager>();
+    parseTree->accept(flowManager.get());
+
+    auto executor = std::make_unique<CommandExecutor>();
+    parseTree->accept(executor.get());
 
     return 0;
 }
