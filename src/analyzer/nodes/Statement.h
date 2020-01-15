@@ -9,8 +9,7 @@
 #include "PipeCmdCall.h"
 #include "VarDef.h"
 
-class Statement {
-public:
+struct Statement {
     std::unique_ptr<PipeCmdCall> pipeCmdCall;
     std::unique_ptr<Redirection> redirection;
     std::unique_ptr<VarDef> varDef;

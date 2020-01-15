@@ -14,8 +14,8 @@ std::unique_ptr<ParseTree> Parser::parse() {
 
     auto parseTree = std::make_unique<ParseTree>();
 
-    advance();
     do {
+        advance();
         parseTree->statements.push_back(parseStatement());
     } while (checkToken(STATEMENT_SEPARATOR));
 
@@ -46,6 +46,7 @@ std::unique_ptr<PipeCmdCall> Parser::parsePipeCmdCall() {
     pipeCmdCall->cmdCall = parseCmdCall();
 
     if (checkToken(PIPE_SEPARATOR)) {
+        requireToken(PIPE_SEPARATOR);
         pipeCmdCall->pipeChain = parsePipeCmdCall();
     }
 
@@ -62,7 +63,7 @@ std::unique_ptr<CmdCall> Parser::parseCmdCall() {
         cmdCall->args = parseArgs();
     }
 
-    if (!checkToken(PIPE_SEPARATOR)) {
+    if (checkToken(HERE_DOCUMENT_MARKER)) {
         cmdCall->hereDocument = parseHereDocument();
     }
 
@@ -77,7 +78,7 @@ std::vector<std::unique_ptr<Value>> Parser::parseArgs() {
 
     std::vector<std::unique_ptr<Value>> args;
 
-    while (checkToken(WORD, NUMBER)) {
+    while (notCmdCallTerminatingToken()) {
         auto value = parseValue();
         args.push_back(std::move(value));
     }
@@ -85,19 +86,42 @@ std::vector<std::unique_ptr<Value>> Parser::parseArgs() {
     return args;
 }
 
+bool Parser::notCmdCallTerminatingToken() {
+    return !checkToken(HERE_DOCUMENT_MARKER) &&
+           !checkToken(PIPE_SEPARATOR) &&
+           !checkToken(REDIRECT_LEFT) &&
+           !checkToken(REDIRECT_RIGHT) &&
+           !checkToken(STATEMENT_SEPARATOR) &&
+           !checkToken(END);
+}
+
 std::unique_ptr<HereDocument> Parser::parseHereDocument() {
 
     requireToken(HERE_DOCUMENT_MARKER);
-    auto hdToken1 = requireToken(WORD);
+    std::string hdToken1 = requireToken(WORD).value;
     requireToken(NEWLINE);
-    auto hdContent = requireToken(STRING);
+    std::string hdContent = parseStringWithSpaces();
     requireToken(NEWLINE);
-    auto hdToken2 = requireToken(WORD);
+    std::string hdToken2 = requireToken(WORD).value;
 
-    if (hdToken1.value != hdToken2.value)
+    if (hdToken1 != hdToken2)
         throw std::runtime_error("Here Document begin and end tokens should be equal!");
 
-    return std::make_unique<HereDocument>(hdToken1.value, hdContent.value);
+    return std::make_unique<HereDocument>(hdToken1, hdContent);
+}
+
+std::string Parser::parseStringWithSpaces() {
+
+    std::string result;
+
+    while (checkToken(NUMBER, WORD, STRING)) {
+        if (!result.empty()) {
+            result += " ";
+        }
+        result += requireToken(NUMBER, WORD, STRING).value;
+    }
+
+    return result;
 }
 
 std::unique_ptr<Value> Parser::parseValue() {
@@ -121,14 +145,14 @@ std::unique_ptr<Value> Parser::parseLiteral() {
         return parseQuotedString();
     }
     else {
-        auto token = requireToken(WORD, NUMBER);
-        return std::make_unique<LiteralValue>(token.value);
+        std::string value = requireToken(WORD, NUMBER, STRING).value;
+        return std::make_unique<LiteralValue>(value);
     }
 }
 
 std::unique_ptr<Value> Parser::parseQuotedString() {
     requireToken(APOSTROPHE);
-    std::string quotedString = requireToken(STRING).value;
+    std::string quotedString = parseStringWithSpaces();
     requireToken(APOSTROPHE);
     return std::make_unique<LiteralValue>(quotedString);
 }
@@ -137,12 +161,12 @@ std::unique_ptr<Redirection> Parser::parseRedirection() {
     if (checkToken(REDIRECT_LEFT)) {
         requireToken(REDIRECT_LEFT);
         auto value = parseValue();
-        std::make_unique<Redirection>(std::move(value));
+        return std::make_unique<Redirection>(std::move(value));
     }
     else {
         requireToken(REDIRECT_RIGHT);
         auto value = parseValue();
-        std::make_unique<Redirection>(std::move(value));
+        return std::make_unique<Redirection>(std::move(value));
     }
 }
 
@@ -175,6 +199,10 @@ bool Parser::checkToken(TokenDescriptor first, TokenDescriptor second) {
     return currentToken.descriptor == first || currentToken.descriptor == second;
 }
 
+bool Parser::checkToken(TokenDescriptor first, TokenDescriptor second, TokenDescriptor third) {
+    return currentToken.descriptor == first || currentToken.descriptor == second || currentToken.descriptor == third;
+}
+
 Token Parser::requireToken(TokenDescriptor descriptor) {
     if (!checkToken(descriptor)) {
         throw std::runtime_error("unexpected token " + currentToken.toString());
@@ -186,6 +214,15 @@ Token Parser::requireToken(TokenDescriptor descriptor) {
 
 Token Parser::requireToken(TokenDescriptor first, TokenDescriptor second) {
     if (!checkToken(first, second)) {
+        throw std::runtime_error("unexpected token " + currentToken.toString());
+    }
+    Token token = currentToken;
+    advance();
+    return token;
+}
+
+Token Parser::requireToken(TokenDescriptor first, TokenDescriptor second, TokenDescriptor third) {
+    if (!checkToken(first, second, third)) {
         throw std::runtime_error("unexpected token " + currentToken.toString());
     }
     Token token = currentToken;

@@ -46,7 +46,7 @@ private:
 
     bool wasTokenTypeSelected();
 
-    void readCharsUntilWhitespace();
+    void readCharsUntilTerminalCharacter();
 };
 
 #endif //UTERM_LEXER_H

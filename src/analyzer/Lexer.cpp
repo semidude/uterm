@@ -5,18 +5,23 @@
 
 Token Lexer::getNextToken() {
 
+    if (!source.dataAvailable()) return Token(END);
+
     resetCurrentTokenState();
     eatWhitespaces();
     readNextChar();
 
     tryProcessingSpecialCharacter();
 
-    readCharsUntilWhitespace();
+    if (!wasTokenTypeSelected()) {
 
-    tryProcessingKeyword();
-    tryProcessingNumber();
-    tryProcessingWord();
-    processString();
+        readCharsUntilTerminalCharacter();
+
+        tryProcessingKeyword();
+        tryProcessingNumber();
+        tryProcessingWord();
+        processString();
+    }
 
     return currentToken;
 }
@@ -81,8 +86,8 @@ void Lexer::tryProcessingSpecialCharacter() {
     }
 }
 
-void Lexer::readCharsUntilWhitespace() {
-    while (!isspace(source.peekNextChar()) && source.dataAvailable()) {
+void Lexer::readCharsUntilTerminalCharacter() {
+    while (!isspace(source.peekNextChar()) && source.peekNextChar() != ';' && source.peekNextChar() != '\'' && source.peekNextChar() != '=' && source.dataAvailable()) {
         readNextChar();
     }
 }
@@ -112,7 +117,7 @@ void Lexer::tryProcessingWord() {
     if (wasTokenTypeSelected()) return;
 
     for (char c : currentTokenValue) {
-        if (!isalnum(c)) return;
+        if (!isalnum(c) && c != '_') return;
     }
 
     currentToken = Token(WORD, currentTokenValue);

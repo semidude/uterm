@@ -7,6 +7,7 @@
 
 
 #include <vector>
+#include <memory>
 #include "nodes/Statement.h"
 
 struct ParseTree {

@@ -14,9 +14,12 @@
 #include "nodes/Redirection.h"
 #include "nodes/Value.h"
 #include "Lexer.h"
+#include "nodes/RedirectedCmdCall.h"
 
 /**
- * STATEMENT = VAR_DEF | (PIPE_CMD_CALL, [REDIRECTION]), [STATEMENT_SEPARATOR, STATEMENT]
+ * STATEMENT = (REDIRECTED_CMD_CALL | VAR_DEF), [STATEMENT_SEPARATOR, STATEMENT]
+ *
+ * REDIRECTED_CMD_CALL = PIPE_CMD_CALL, [REDIRECTION]
  *
  * PIPE_CMD_CALL = CMD_CALL, [PIPE_SEPARATOR, PIPE_CMD_CALL]
  *
@@ -81,14 +84,18 @@ private:
     std::unique_ptr<Redirection> parseRedirection();
     std::unique_ptr<VarDef> parseVarDef();
     std::unique_ptr<Value> parseValueExtraction();
+    std::string parseStringWithSpaces();
+    bool notCmdCallTerminatingToken();
 
     void advance();
 
     bool checkToken(TokenDescriptor descriptor);
     bool checkToken(TokenDescriptor first, TokenDescriptor second);
+    bool checkToken(TokenDescriptor first, TokenDescriptor second, TokenDescriptor third);
 
     Token requireToken(TokenDescriptor descriptor);
     Token requireToken(TokenDescriptor first, TokenDescriptor second);
+    Token requireToken(TokenDescriptor first, TokenDescriptor second, TokenDescriptor third);
 };
 
 

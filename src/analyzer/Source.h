@@ -27,7 +27,7 @@ public:
     }
 
     bool dataAvailable() {
-        return source.size() > currentReadPosition;
+        return currentReadPosition < source.size();
     }
 };
 

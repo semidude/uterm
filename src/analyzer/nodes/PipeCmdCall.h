@@ -10,7 +10,7 @@
 #include "Redirection.h"
 #include "CmdCall.h"
 
-class PipeCmdCall: CmdCall {
+class PipeCmdCall {
 public:
     std::unique_ptr<CmdCall> cmdCall;
     std::unique_ptr<PipeCmdCall> pipeChain;

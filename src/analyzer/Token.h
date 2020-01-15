@@ -24,7 +24,8 @@ enum TokenDescriptor {
     DEF_KEYWORD,            // expected string : "def"
     NUMBER,                 // expected string : "\d+"
     WORD,                   // expected string : "\w+",
-    STRING                  // expected string : ".+",
+    STRING,                 // expected string : ".+",
+    END
 };
 
 struct Token {

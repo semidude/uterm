@@ -30,6 +30,8 @@ BOOST_AUTO_TEST_CASE(internal_commands_test) {
     BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "exit"));
 
     BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "XAXAXA"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::END));
 }
 
 BOOST_AUTO_TEST_CASE(string_and_number_test) {
@@ -48,6 +50,8 @@ BOOST_AUTO_TEST_CASE(string_and_number_test) {
     BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::STRING, "XAXAXA0912*5"));
 
     BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::NUMBER, "0123557687890"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::END));
 }
 
 BOOST_AUTO_TEST_CASE(special_chars_test) {
@@ -72,4 +76,89 @@ BOOST_AUTO_TEST_CASE(special_chars_test) {
     BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::APOSTROPHE));
 
     BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::NEWLINE));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::END));
+}
+
+BOOST_AUTO_TEST_CASE(here_document_test) {
+    Source source = Source("myprog 123 <<MARKER\ntresc here documentu\nMARKER");
+
+    Lexer lexer = Lexer(source);
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "myprog"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::NUMBER, "123"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::HERE_DOCUMENT_MARKER));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "MARKER"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::NEWLINE));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "tresc"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "here"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "documentu"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::NEWLINE));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "MARKER"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::END));
+}
+
+BOOST_AUTO_TEST_CASE(test_multiple_statements) {
+    Source source = Source("myprog 123; anotherprog aaa");
+
+    Lexer lexer = Lexer(source);
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "myprog"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::NUMBER, "123"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::STATEMENT_SEPARATOR));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "anotherprog"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "aaa"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::END));
+}
+
+BOOST_AUTO_TEST_CASE(test_quoted_string) {
+    Source source = Source("'hello darkness'");
+
+    Lexer lexer = Lexer(source);
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::APOSTROPHE));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "hello"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "darkness"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::APOSTROPHE));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::END));
+}
+
+BOOST_AUTO_TEST_CASE(test_variable_definition) {
+    Source source = Source("ZIOMBEL='imie ziombla'");
+
+    Lexer lexer = Lexer(source);
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "ZIOMBEL"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::ASSIGN_OPERATOR));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::APOSTROPHE));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "imie"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::WORD, "ziombla"));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::APOSTROPHE));
+
+    BOOST_CHECK_EQUAL(lexer.getNextToken(), Token(TokenDescriptor::END));
+
 }
