@@ -16,9 +16,10 @@
 #include "../analyzer/nodes/VarValue.h"
 
 /**
- * This method is responsible for saving command outputs to the file, if there was redirection defined for it.
+ * This method is responsible for opening a file and redirecting command output to this file.
+ * NOTE: The redirection is for the whole pipeline output (which practically means output of the last command in pipeline).
  *
- * It is called after visit(PipeCmdCall) and visit(CmdCall) methods.
+ * The call order is: visit(RedirectedCmdCall) --> visit(PipeCmdCall) --> visit(CmdCall)
  */
 void CommandExecutor::visit(RedirectedCmdCall *redirectedCmdCall) {
 
@@ -31,10 +32,10 @@ void CommandExecutor::visit(RedirectedCmdCall *redirectedCmdCall) {
 }
 
 /**
- * This method is responsible for creating a pipe and set appropriate descriptors in CmdCall objects, which will
- * be later used for in dup2 calls in child processes of the commands (they are spawned in visit(CmdCall) method).
+ * This method is responsible for creating a pipe and setting appropriate descriptors in CmdCall objects, which will
+ * be later used for in dup2 calls in child processes of the commands (they will get spawned in visit(CmdCall) method).
  *
- * It is called before visit(CmdCall) and visit(RedirectedCmdCall) methods.
+ * The call order is: visit(RedirectedCmdCall) --> visit(PipeCmdCall) --> visit(CmdCall)
  */
 void CommandExecutor::visit(PipeCmdCall *pipeCmdCall) {
 
@@ -58,9 +59,9 @@ void CommandExecutor::visit(PipeCmdCall *pipeCmdCall) {
 
 /**
  * This method is responsible for spawning child processes for the CmdCall objects. If there were any descriptors
- * overrided in visit(PipeCmdCall) method, then they are duplicated into STDIN and STDOUT, respectively.
+ * set in visit(PipeCmdCall) method, then they will be duplicated into STDIN and/or STDOUT.
  *
- * It is called after visit(PipeCmdCall) and before visit(RedirectedCmdCall).
+ * The call order is: visit(RedirectedCmdCall) --> visit(PipeCmdCall) --> visit(CmdCall)
  */
 void CommandExecutor::visit(CmdCall *cmdCall) {
 
