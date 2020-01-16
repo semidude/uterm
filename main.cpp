@@ -14,6 +14,11 @@ int main() {
 //    std::cin >> command;
 
     Source source("myprog 123 koles <<MARKER\ntresc here documentu\nMARKER | grep ziombel > jakis_pliczek_ziombla.txt; jakis_koles 'witaj gosciu'; def export ZIOMBEL='imie ziombla'");
+    //Source source("cat sample | grep abc > fajl.txt; mkdir ujebanekolosy; def export ELKA='chujnia z grzybnia'");
+    //Source source("rm jakisfolder; prog 13 cokolwiek <<MARKER\nbla bla bla bla\nMARKER; mkdir jakisfolder");
+    //Source source("grep aaa plik1; cat plik2 > plik3 | def spanie=$jaknajbardziej");
+    //Source source(cd jakisfolder);
+    //Source source("");
 
     auto lexer = std::make_unique<Lexer>(source);
 
