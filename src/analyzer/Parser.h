@@ -6,6 +6,7 @@
 #define UTERM_PARSER_H
 
 #include <utility>
+#include <set>
 
 #include "ParseTree.h"
 #include "nodes/Node.h"
@@ -66,6 +67,7 @@ class Parser {
 private:
     Token currentToken;
     std::unique_ptr<Lexer> lexer;
+    std::set<std::string> systemCommands = { "ls", "grep", "touch", "cat" }; //TODO add more...
 
 public:
     explicit Parser(std::unique_ptr<Lexer> lexer): lexer(std::move(lexer)) {}

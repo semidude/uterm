@@ -6,12 +6,15 @@
 #define UTERM_EXECUTIONFLOWMANAGER_H
 
 
+#include <vector>
 #include "../analyzer/Visitor.h"
 #include "Environment.h"
+#include "../util/Pipe.h"
 
 class ExecutionFlowManager: public Visitor {
 private:
     Environment *env;
+    std::vector<Pipe> pipes;
 
 public:
     explicit ExecutionFlowManager(Environment *env) : env(env) {}

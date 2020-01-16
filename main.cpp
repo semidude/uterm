@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <zconf.h>
 #include "src/analyzer/Source.h"
 #include "src/analyzer/Lexer.h"
 #include "src/analyzer/Parser.h"
@@ -20,12 +21,19 @@ int main() {
 //    Source source(cd jakisfolder);
 //    Source source("");
 
-    Source source("myprog 123 koles <<MARKER\ntresc here documentu\nMARKER | grep ziombel > jakis_pliczek_ziombla.txt;"
-                  "jakis_koles 'witaj gosciu';"
-                  "def export ZIOMBEL='imie ziombla';"
-                  "echo $ZIOMBEL;"
-                  "echo 'siema gosciu smieszny' < $ZIOMBEL");
+//    Source source("myprog 123 koles <<MARKER\ntresc here documentu\nMARKER | grep ziombel > jakis_pliczek_ziombla.txt;"
+//                  "jakis_koles 'witaj gosciu';"
+//                  "def export ZIOMBEL='imie ziombla';"
+//                  "echo $ZIOMBEL;"
+//                  "echo 'siema gosciu smieszny' < $ZIOMBEL");
+
     Environment env;
+
+    Source source("touch ziombel;"
+                  "touch koles;"
+                  "def COSTAM=koles;"
+                  "ls | grep l | cat | grep $COSTAM > pliczek.txt;"
+                  "ls | grep pliczek | cat");
 
     auto lexer = std::make_unique<Lexer>(source);
 
@@ -38,6 +46,8 @@ int main() {
 
     auto executor = std::make_unique<CommandExecutor>();
     parseTree->accept(executor.get());
+
+    sleep(1);
 
     return 0;
 }

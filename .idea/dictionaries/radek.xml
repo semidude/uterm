@@ -2,6 +2,11 @@
   <dictionary name="radek">
     <words>
       <w>chyba</w>
+      <w>infd</w>
+      <w>outfd</w>
+      <w>overrided</w>
+      <w>pipefd</w>
+      <w>redirections</w>
       <w>robić</w>
       <w>trzeba</w>
     </words>

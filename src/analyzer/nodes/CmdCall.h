@@ -9,14 +9,31 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <zconf.h>
 #include "Node.h"
 #include "HereDocument.h"
 #include "Value.h"
 
 struct CmdCall: public Node {
+
     std::string cmd;
     std::vector<std::unique_ptr<Value>> args;
     std::unique_ptr<HereDocument> hereDocument;
+
+    int infd = STDIN_FILENO;
+    int outfd = STDOUT_FILENO;
+
+    std::vector<const char*> evaluateArgs() {
+        std::vector<const char*> evaluatedArgs;
+
+        evaluatedArgs.push_back("grep");
+        for (auto& arg : args) {
+            evaluatedArgs.push_back(arg->evaluate().c_str());
+        }
+        evaluatedArgs.push_back(nullptr);
+
+        return std::move(evaluatedArgs);
+    }
 
     void accept(Visitor *visitor) override {
 

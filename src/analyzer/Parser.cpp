@@ -79,7 +79,13 @@ std::unique_ptr<CmdCall> Parser::parseCmdCall() {
 }
 
 std::string Parser::parseCmd() {
-    return requireToken(WORD).value;
+    std::string cmd = requireToken(WORD, STRING).value;
+
+    if (systemCommands.count(cmd)) {
+        cmd = "/bin/" + cmd;
+    }
+
+    return cmd;
 }
 
 std::vector<std::unique_ptr<Value>> Parser::parseArgs() {

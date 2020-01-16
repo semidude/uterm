@@ -16,13 +16,15 @@ struct PipeCmdCall: public Node {
     std::unique_ptr<CmdCall> cmdCall;
     std::unique_ptr<PipeCmdCall> pipeChain;
 
+    int outfd = STDOUT_FILENO;
+
     void accept(Visitor *visitor) override {
+
+        visitor->visit(this); //create the pipe before spawning child processes
 
         cmdCall->accept(visitor);
 
         if (pipeChain != nullptr) pipeChain->accept(visitor);
-
-        visitor->visit(this);
     }
 
     friend std::ostream &operator<<(std::ostream &os, const PipeCmdCall &pipeCmdCall) {

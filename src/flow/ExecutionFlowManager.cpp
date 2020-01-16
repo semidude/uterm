@@ -3,6 +3,8 @@
 //
 
 #include <iostream>
+#include <zconf.h>
+#include <fcntl.h>
 #include "ExecutionFlowManager.h"
 #include "../analyzer/nodes/VarDef.h"
 #include "../analyzer/nodes/RedirectedCmdCall.h"
@@ -13,57 +15,105 @@
 #include "../analyzer/nodes/LiteralValue.h"
 #include "../analyzer/nodes/VarValue.h"
 
+/**
+ * This method is responsible for saving command outputs to the file, if there was redirection defined for it.
+ *
+ * It is called after visit(PipeCmdCall) and visit(CmdCall) methods.
+ */
 void ExecutionFlowManager::visit(RedirectedCmdCall *redirectedCmdCall) {
-    std::cout << *redirectedCmdCall << std::endl;
 
     if (redirectedCmdCall->redirection != nullptr) {
-        //TODO zrobić przekierowanie z redirectedCmdCall->pipeCmdCall do pliku o nazwie redirectedCmdCall->redirection->getFileName()
+
+        int fd = open(redirectedCmdCall->redirection->getFileName(), O_WRONLY | O_TRUNC | O_CREAT, 0666);
+
+        redirectedCmdCall->pipeCmdCall->outfd = fd;
     }
 }
 
+/**
+ * This method is responsible for creating a pipe and set appropriate descriptors in CmdCall objects, which will
+ * be later used for in dup2 calls in child processes of the commands (they are spawned in visit(CmdCall) method).
+ *
+ * It is called before visit(CmdCall) and visit(RedirectedCmdCall) methods.
+ */
 void ExecutionFlowManager::visit(PipeCmdCall *pipeCmdCall) {
-    std::cout << *pipeCmdCall << std::endl;
 
-    if (pipeCmdCall->pipeChain != nullptr) {
-        //TODO zrobić potok z pipeCmdCall->cmdCall do pipeCmdCall->pipeChain->cmdCall
+    if (pipeCmdCall->pipeChain != nullptr) { //there is a pipe to next command
+
+        int fd[2];
+        pipe(fd);
+
+        pipeCmdCall->cmdCall->outfd = fd[1];
+        pipeCmdCall->pipeChain->cmdCall->infd = fd[0];
+
+        //maybe it's the last PipeCmdCall object, in that case set the command outfd to whole pipeline outfd
+        pipeCmdCall->pipeChain->cmdCall->outfd = pipeCmdCall->outfd;
+
+        //and in case it's not the last one, let the descriptor pass through to the next one
+        pipeCmdCall->pipeChain->outfd = pipeCmdCall->outfd;
+
+        pipes.emplace_back(fd[0], fd[1]);
     }
 }
 
+/**
+ * This method is responsible for spawning child processes for the CmdCall objects. If there were any descriptors
+ * overrided in visit(PipeCmdCall) method, then they are duplicated into STDIN and STDOUT, respectively.
+ *
+ * It is called after visit(PipeCmdCall) and before visit(RedirectedCmdCall).
+ */
 void ExecutionFlowManager::visit(CmdCall *cmdCall) {
-    std::cout << *cmdCall << std::endl;
 
-    //TODO utworzyć proces dla cmdCall
+    if (fork() == 0) { //in child process
+
+        //TODO add all exported variables to the child process environment
+
+        if (cmdCall->infd != STDIN_FILENO) {
+            //redirect standard input from infd
+            dup2(cmdCall->infd, STDIN_FILENO);
+        }
+
+        if (cmdCall->outfd != STDOUT_FILENO) {
+            //redirect standard output to outfd
+            dup2(cmdCall->outfd, STDOUT_FILENO);
+        }
+
+        //close all inherited pipes
+        for (auto& pipe : pipes) {
+            close(pipe.infd);
+            close(pipe.outfd);
+        }
+
+        std::vector<const char*> args = cmdCall->evaluateArgs();
+        execv(cmdCall->cmd.c_str(), const_cast<char**>(&args[0]));
+    }
+
+    //in parent process close descriptors used in this command
+    if (cmdCall->infd != STDIN_FILENO) close(cmdCall->infd);
+    if (cmdCall->outfd != STDOUT_FILENO) close(cmdCall->outfd);
+
 
     if (cmdCall->hereDocument != nullptr) {
-        //TODO utworzyć here document i podpiąć do cmdCall
+        //TODO create here document and make it input for the CmdCall
     }
-}
-
-void ExecutionFlowManager::visit(HereDocument *hereDocument) {
-    std::cout << *hereDocument << std::endl;
-    //chyba nic nie trzeba tu robić...
-}
-
-void ExecutionFlowManager::visit(Redirection *redirection) {
-    std::cout << *redirection << std::endl;
-    //chyba nic nie trzeba tu robić...
 }
 
 void ExecutionFlowManager::visit(VarDef *varDef) {
-
     env->defineVariable(varDef->name, varDef->value->evaluate());
-
-    std::cout << *varDef << std::endl;
 }
 
 void ExecutionFlowManager::visit(VarValue *varValue) {
-
     varValue->simpleValue = env->getValueOf(varValue->name);
-
-    std::cout << *varValue << std::endl;
 }
 
 void ExecutionFlowManager::visit(LiteralValue *literalValue) {
-    std::cout << *literalValue << std::endl;
-    //chyba nic nie trzeba tu robić...
+    //nothing to do here, probably...
+}
+
+void ExecutionFlowManager::visit(HereDocument *hereDocument) {
+    //nothing to do here, probably...
+}
+
+void ExecutionFlowManager::visit(Redirection *redirection) {
+    //nothing to do here, probably...
 }

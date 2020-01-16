@@ -17,11 +17,12 @@ struct RedirectedCmdCall: public Statement {
 
     void accept(Visitor *visitor) override {
 
+        visitor->visit(this); //save output to file after command execution has completed
+
         pipeCmdCall->accept(visitor);
 
         if (redirection != nullptr) redirection->accept(visitor);
 
-        visitor->visit(this);
     }
 
     friend std::ostream &operator<<(std::ostream &os, const RedirectedCmdCall &redirectedCmdCall) {
