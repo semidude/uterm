@@ -8,8 +8,6 @@
 #define BOOST_TEST_MAIN  // in only one cpp file
 
 #include <boost/test/unit_test.hpp>
-
-
 #include "../../src/analyzer/Source.h"
 #include "../../src/analyzer/Lexer.h"
 
