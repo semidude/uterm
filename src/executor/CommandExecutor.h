@@ -6,11 +6,19 @@
 #define UTERM_COMMANDEXECUTOR_H
 
 
+#include <vector>
 #include "../analyzer/Visitor.h"
+#include "Environment.h"
+#include "Pipe.h"
 
 class CommandExecutor: public Visitor {
+private:
+    Environment *env;
+    std::vector<Pipe> pipes;
 
 public:
+    explicit CommandExecutor(Environment *env) : env(env) {}
+
     void visit(RedirectedCmdCall *redirectedCmdCall) override;
 
     void visit(PipeCmdCall *pipeCmdCall) override;

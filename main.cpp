@@ -4,8 +4,8 @@
 #include "src/analyzer/Source.h"
 #include "src/analyzer/Lexer.h"
 #include "src/analyzer/Parser.h"
-#include "src/flow/ExecutionFlowManager.h"
 #include "src/executor/CommandExecutor.h"
+#include "src/executor/Environment.h"
 
 int main() {
 
@@ -41,10 +41,7 @@ int main() {
 
     auto parseTree = parser->parse();
 
-    auto flowManager = std::make_unique<ExecutionFlowManager>(&env);
-    parseTree->accept(flowManager.get());
-
-    auto executor = std::make_unique<CommandExecutor>();
+    auto executor = std::make_unique<CommandExecutor>(&env);
     parseTree->accept(executor.get());
 
     sleep(1);

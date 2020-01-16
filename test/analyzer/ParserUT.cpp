@@ -10,7 +10,7 @@
 #include "../../src/analyzer/Source.h"
 #include "../../src/analyzer/Lexer.h"
 #include "../../src/analyzer/Parser.h"
-#include "../../src/flow/ExecutionFlowManager.h"
+#include "../../src/flow/CommandExecutor.h"
 #include "../../src/executor/CommandExecutor.h"
 
 BOOST_AUTO_TEST_CASE(dummy_parser_test) {
