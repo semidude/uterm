@@ -6,14 +6,14 @@
 #include <zconf.h>
 #include <fcntl.h>
 #include "CommandExecutor.h"
-#include "../analyzer/nodes/VarDef.h"
-#include "../analyzer/nodes/RedirectedCmdCall.h"
-#include "../analyzer/nodes/PipeCmdCall.h"
-#include "../analyzer/nodes/CmdCall.h"
-#include "../analyzer/nodes/HereDocument.h"
-#include "../analyzer/nodes/Redirection.h"
-#include "../analyzer/nodes/LiteralValue.h"
-#include "../analyzer/nodes/VarValue.h"
+#include "../parser/nodes/VarDef.h"
+#include "../parser/nodes/RedirectedCmdCall.h"
+#include "../parser/nodes/PipeCmdCall.h"
+#include "../parser/nodes/CmdCall.h"
+#include "../parser/nodes/HereDocument.h"
+#include "../parser/nodes/Redirection.h"
+#include "../parser/nodes/LiteralValue.h"
+#include "../parser/nodes/VarValue.h"
 
 /**
  * This method is responsible for opening a file and redirecting command output to this file.

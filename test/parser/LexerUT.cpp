@@ -8,8 +8,8 @@
 #define BOOST_TEST_MAIN  // in only one cpp file
 
 #include <boost/test/unit_test.hpp>
-#include "../../src/analyzer/Source.h"
-#include "../../src/analyzer/Lexer.h"
+#include "../../src/parser/Source.h"
+#include "../../src/parser/Lexer.h"
 
 
 BOOST_AUTO_TEST_CASE(internal_commands_test) {

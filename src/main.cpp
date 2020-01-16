@@ -1,11 +1,11 @@
 #include <iostream>
 #include <memory>
 #include <zconf.h>
-#include "src/analyzer/Source.h"
-#include "src/analyzer/Lexer.h"
-#include "src/analyzer/Parser.h"
-#include "src/executor/CommandExecutor.h"
-#include "src/executor/Environment.h"
+#include "parser/Source.h"
+#include "parser/Lexer.h"
+#include "parser/Parser.h"
+#include "executor/CommandExecutor.h"
+#include "executor/Environment.h"
 
 int main() {
 

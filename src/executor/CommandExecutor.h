@@ -7,7 +7,7 @@
 
 
 #include <vector>
-#include "../analyzer/Visitor.h"
+#include "../parser/Visitor.h"
 #include "Environment.h"
 #include "Pipe.h"
 

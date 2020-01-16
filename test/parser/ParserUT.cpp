@@ -7,9 +7,9 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include "../../src/analyzer/Source.h"
-#include "../../src/analyzer/Lexer.h"
-#include "../../src/analyzer/Parser.h"
+#include "../../src/parser/Source.h"
+#include "../../src/parser/Lexer.h"
+#include "../../src/parser/Parser.h"
 #include "../../src/flow/CommandExecutor.h"
 #include "../../src/executor/CommandExecutor.h"
 
