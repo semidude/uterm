@@ -10,15 +10,15 @@
 
 #include <utility>
 
-class VarValue: public Value {
-private:
-    std::string varName;
+struct VarValue: public Value {
 
-public:
-    explicit VarValue(std::string varName) : varName(std::move(varName)) {}
+    std::string name;
+    std::string value;
+
+    explicit VarValue(std::string name) : name(std::move(name)) {}
 
     std::string evaluate() const override {
-        return ""; //TODO...
+        return value;
     }
 
     void accept(Visitor *visitor) override {

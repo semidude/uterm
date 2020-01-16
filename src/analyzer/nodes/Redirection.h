@@ -16,6 +16,10 @@ struct Redirection: public Node {
 
     explicit Redirection(std::unique_ptr<Value> value) : value(std::move(value)) {}
 
+    std::string getFileName() {
+        return value->evaluate();
+    }
+
     void accept(Visitor *visitor) override {
         visitor->visit(this);
     }

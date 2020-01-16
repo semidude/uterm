@@ -12,10 +12,6 @@
 #include "../analyzer/nodes/LiteralValue.h"
 #include "../analyzer/nodes/VarValue.h"
 
-void CommandExecutor::visit(VarDef *varDef) {
-
-}
-
 void CommandExecutor::visit(RedirectedCmdCall *redirectedCmdCall) {
 
 }
@@ -36,10 +32,14 @@ void CommandExecutor::visit(Redirection *redirection) {
 
 }
 
-void CommandExecutor::visit(LiteralValue *literalValue) {
+void CommandExecutor::visit(VarDef *varDef) {
 
 }
 
 void CommandExecutor::visit(VarValue *varValue) {
+
+}
+
+void CommandExecutor::visit(LiteralValue *literalValue) {
 
 }

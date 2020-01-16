@@ -11,8 +11,6 @@
 class CommandExecutor: public Visitor {
 
 public:
-    void visit(VarDef *varDef) override;
-
     void visit(RedirectedCmdCall *redirectedCmdCall) override;
 
     void visit(PipeCmdCall *pipeCmdCall) override;
@@ -23,9 +21,11 @@ public:
 
     void visit(Redirection *redirection) override;
 
-    void visit(LiteralValue *literalValue) override;
+    void visit(VarDef *varDef) override;
 
     void visit(VarValue *varValue) override;
+
+    void visit(LiteralValue *literalValue) override;
 };
 
 
