@@ -26,7 +26,7 @@ public:
     }
 
     friend std::ostream &operator<<(std::ostream &os, const LiteralValue &literalValue) {
-        return os << "literalValue (" << literalValue.evaluate() << ")" << std::endl;
+        return os << "(LiteralValue " << literalValue.evaluate() << ")";
     }
 };
 

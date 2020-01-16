@@ -22,7 +22,7 @@ struct HereDocument: public Node {
     }
 
     friend std::ostream &operator<<(std::ostream &os, const HereDocument &hereDocument) {
-        return os << "hereDocument (" << hereDocument.hdToken << " " << hereDocument.hdContent << " " << hereDocument.hdToken << ")" << std::endl;
+        return os << "(HereDocument " << hereDocument.hdToken << " " << hereDocument.hdContent << " " << hereDocument.hdToken << ")";
     }
 };
 

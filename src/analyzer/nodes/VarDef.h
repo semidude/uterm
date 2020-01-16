@@ -14,21 +14,23 @@
 #include "Value.h"
 
 struct VarDef: public Statement {
-    std::string varName;
+    std::string name;
     std::unique_ptr<Value> value;
     bool exported;
 
-    VarDef(std::string varName, std::unique_ptr<Value> value, bool exported) : varName(std::move(varName)),
+    VarDef(std::string varName, std::unique_ptr<Value> value, bool exported) : name(std::move(varName)),
                                                                                value(std::move(value)),
                                                                                exported(exported) {}
 
     void accept(Visitor *visitor) override {
-        visitor->visit(this);
+
         value->accept(visitor);
+
+        visitor->visit(this);
     }
 
     friend std::ostream& operator<<(std::ostream& os, const VarDef& varDef) {
-        return os << "varDef (" << varDef.varName << " = " << varDef.value->evaluate() << ")" << std::endl;
+        return os << "(VarDef " << varDef.name << " = " << varDef.value->evaluate() << ")";
     }
 };
 

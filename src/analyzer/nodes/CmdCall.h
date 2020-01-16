@@ -20,17 +20,31 @@ struct CmdCall: public Node {
 
     void accept(Visitor *visitor) override {
 
-        visitor->visit(this);
-
         for (const auto& arg : args) {
             arg->accept(visitor);
         }
 
         if (hereDocument != nullptr) hereDocument->accept(visitor);
+
+        visitor->visit(this);
     }
 
     friend std::ostream &operator<<(std::ostream &os, const CmdCall &cmdCall) {
-        return os << "cmdCall (" << cmdCall.cmd << ")" << std::endl;
+        os << "(CmdCall " << cmdCall.cmd << " ";
+
+        for (int i = 0; i < cmdCall.args.size(); i++) {
+            os << "'" << cmdCall.args[i]->evaluate() << "'";
+
+            if (i != cmdCall.args.size() - 1) {
+                os << " ";
+            }
+        }
+
+        if (cmdCall.hereDocument != nullptr) {
+            os << "<<" << *cmdCall.hereDocument;
+        }
+
+        return os << ")";
     }
 };
 

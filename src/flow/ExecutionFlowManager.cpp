@@ -14,7 +14,7 @@
 #include "../analyzer/nodes/VarValue.h"
 
 void ExecutionFlowManager::visit(RedirectedCmdCall *redirectedCmdCall) {
-    std::cout << *redirectedCmdCall;
+    std::cout << *redirectedCmdCall << std::endl;
 
     if (redirectedCmdCall->redirection != nullptr) {
         //TODO zrobić przekierowanie z redirectedCmdCall->pipeCmdCall do pliku o nazwie redirectedCmdCall->redirection->getFileName()
@@ -22,7 +22,7 @@ void ExecutionFlowManager::visit(RedirectedCmdCall *redirectedCmdCall) {
 }
 
 void ExecutionFlowManager::visit(PipeCmdCall *pipeCmdCall) {
-    std::cout << *pipeCmdCall;
+    std::cout << *pipeCmdCall << std::endl;
 
     if (pipeCmdCall->pipeChain != nullptr) {
         //TODO zrobić potok z pipeCmdCall->cmdCall do pipeCmdCall->pipeChain->cmdCall
@@ -30,7 +30,7 @@ void ExecutionFlowManager::visit(PipeCmdCall *pipeCmdCall) {
 }
 
 void ExecutionFlowManager::visit(CmdCall *cmdCall) {
-    std::cout << *cmdCall;
+    std::cout << *cmdCall << std::endl;
 
     //TODO utworzyć proces dla cmdCall
 
@@ -40,28 +40,30 @@ void ExecutionFlowManager::visit(CmdCall *cmdCall) {
 }
 
 void ExecutionFlowManager::visit(HereDocument *hereDocument) {
-    std::cout << *hereDocument;
+    std::cout << *hereDocument << std::endl;
     //chyba nic nie trzeba tu robić...
 }
 
 void ExecutionFlowManager::visit(Redirection *redirection) {
-    std::cout << *redirection;
+    std::cout << *redirection << std::endl;
     //chyba nic nie trzeba tu robić...
 }
 
 void ExecutionFlowManager::visit(VarDef *varDef) {
-    std::cout << *varDef;
 
-    //TODO dodać definicję zmiennej do kontekstu
+    env->defineVariable(varDef->name, varDef->value->evaluate());
+
+    std::cout << *varDef << std::endl;
 }
 
 void ExecutionFlowManager::visit(VarValue *varValue) {
-    std::cout << *varValue;
 
-    //TODO wyciągnąć z kontekstu wartość zmiennej varValue->name i wstawić ją do varValue->value
+    varValue->simpleValue = env->getValueOf(varValue->name);
+
+    std::cout << *varValue << std::endl;
 }
 
 void ExecutionFlowManager::visit(LiteralValue *literalValue) {
-    std::cout << *literalValue;
+    std::cout << *literalValue << std::endl;
     //chyba nic nie trzeba tu robić...
 }

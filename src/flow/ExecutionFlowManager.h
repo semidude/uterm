@@ -7,10 +7,15 @@
 
 
 #include "../analyzer/Visitor.h"
+#include "Environment.h"
 
 class ExecutionFlowManager: public Visitor {
+private:
+    Environment *env;
 
 public:
+    explicit ExecutionFlowManager(Environment *env) : env(env) {}
+
     void visit(RedirectedCmdCall *redirectedCmdCall) override;
 
     void visit(PipeCmdCall *pipeCmdCall) override;

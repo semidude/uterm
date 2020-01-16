@@ -18,21 +18,21 @@ struct PipeCmdCall: public Node {
 
     void accept(Visitor *visitor) override {
 
-        visitor->visit(this);
-
         cmdCall->accept(visitor);
 
         if (pipeChain != nullptr) pipeChain->accept(visitor);
+
+        visitor->visit(this);
     }
 
     friend std::ostream &operator<<(std::ostream &os, const PipeCmdCall &pipeCmdCall) {
-        os << "pipeCmdCall (" << pipeCmdCall.cmdCall->cmd;
+        os << "(PipeCmdCall " << *pipeCmdCall.cmdCall;
 
         if (pipeCmdCall.pipeChain != nullptr) {
-            os << " | " << pipeCmdCall.pipeChain->cmdCall->cmd;
+            os << " | " << *pipeCmdCall.pipeChain;
         }
 
-        os << ")" << std::endl;
+        os << ")";
         return os;
     }
 };

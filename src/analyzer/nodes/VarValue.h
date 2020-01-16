@@ -13,12 +13,12 @@
 struct VarValue: public Value {
 
     std::string name;
-    std::string value;
+    std::string simpleValue;
 
     explicit VarValue(std::string name) : name(std::move(name)) {}
 
     std::string evaluate() const override {
-        return value;
+        return simpleValue;
     }
 
     void accept(Visitor *visitor) override {
@@ -26,7 +26,7 @@ struct VarValue: public Value {
     }
 
     friend std::ostream &operator<<(std::ostream &os, const VarValue &varValue) {
-        return os << "varValue.(.." << varValue.evaluate() << ")" << std::endl;
+        return os << "(VarValue " << varValue.evaluate() << ")";
     }
 };
 

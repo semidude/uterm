@@ -21,11 +21,14 @@ struct Redirection: public Node {
     }
 
     void accept(Visitor *visitor) override {
+
+        value->accept(visitor);
+
         visitor->visit(this);
     }
 
     friend std::ostream &operator<<(std::ostream &os, const Redirection &redirection) {
-        return os << "redirection (" << redirection.value->evaluate() << ")" << std::endl;
+        return os << "(Redirection " << redirection.value->evaluate() << ")";
     }
 };
 

@@ -17,15 +17,21 @@ struct RedirectedCmdCall: public Statement {
 
     void accept(Visitor *visitor) override {
 
-        visitor->visit(this);
-
         pipeCmdCall->accept(visitor);
 
         if (redirection != nullptr) redirection->accept(visitor);
+
+        visitor->visit(this);
     }
 
     friend std::ostream &operator<<(std::ostream &os, const RedirectedCmdCall &redirectedCmdCall) {
-        return os << "redirectedCmdCall (" << redirectedCmdCall.pipeCmdCall->cmdCall->cmd << ")" << std::endl;
+        os << "(RedirectedCmdCall " << *redirectedCmdCall.pipeCmdCall;
+
+        if (redirectedCmdCall.redirection != nullptr) {
+            os << " > " << redirectedCmdCall.redirection->getFileName();
+        }
+
+        return os << ")";
     }
 };
 

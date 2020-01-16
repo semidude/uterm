@@ -13,7 +13,12 @@ int main() {
 //    std::cout << "$ ";
 //    std::cin >> command;
 
-    Source source("myprog 123 koles <<MARKER\ntresc here documentu\nMARKER | grep ziombel > jakis_pliczek_ziombla.txt; jakis_koles 'witaj gosciu'; def export ZIOMBEL='imie ziombla'");
+    Source source("myprog 123 koles <<MARKER\ntresc here documentu\nMARKER | grep ziombel > jakis_pliczek_ziombla.txt;"
+                  "jakis_koles 'witaj gosciu';"
+                  "def export ZIOMBEL='imie ziombla';"
+                  "echo $ZIOMBEL;"
+                  "echo 'siema gosciu smieszny' < $ZIOMBEL");
+    Environment env;
 
     auto lexer = std::make_unique<Lexer>(source);
 
@@ -21,7 +26,7 @@ int main() {
 
     auto parseTree = parser->parse();
 
-    auto flowManager = std::make_unique<ExecutionFlowManager>();
+    auto flowManager = std::make_unique<ExecutionFlowManager>(&env);
     parseTree->accept(flowManager.get());
 
     auto executor = std::make_unique<CommandExecutor>();
