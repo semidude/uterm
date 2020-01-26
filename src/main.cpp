@@ -33,7 +33,8 @@ int main() {
                   "touch koles;"
                   "def COSTAM=koles;"
                   "ls | grep l | cat | grep $COSTAM > pliczek.txt;"
-                  "ls | grep pliczek | cat");
+                  "ls | grep pliczek | cat;"
+                  "/usr/bin/head < pliczek.txt");
 
     auto lexer = std::make_unique<Lexer>(source);
 
