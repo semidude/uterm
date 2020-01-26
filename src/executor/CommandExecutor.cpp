@@ -31,10 +31,14 @@ void CommandExecutor::visit(RedirectedCmdCall *redirectedCmdCall) {
 
             redirectedCmdCall->pipeCmdCall->outfd = fd;
 
-        } else {
+            openDescriptors.push_back(fd);
+        }
+        else {
             int fd = open(redirectedCmdCall->redirection->getFileName(), O_RDONLY, 0666);
 
             redirectedCmdCall->pipeCmdCall->cmdCall->infd = fd;
+
+            openDescriptors.push_back(fd);
         }
 
     }
@@ -62,7 +66,8 @@ void CommandExecutor::visit(PipeCmdCall *pipeCmdCall) {
         //and in case it's not the last one, let the descriptor pass through to the next one
         pipeCmdCall->pipeChain->outfd = pipeCmdCall->outfd;
 
-        pipes.emplace_back(fd[0], fd[1]);
+        openDescriptors.push_back(fd[0]);
+        openDescriptors.push_back(fd[1]);
     }
 }
 
@@ -89,9 +94,8 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
         }
 
         //close all inherited pipes
-        for (auto &pipe : pipes) {
-            close(pipe.infd);
-            close(pipe.outfd);
+        for (int fd : openDescriptors) {
+            close(fd);
         }
 
         std::vector<const char *> args = cmdCall->evaluateArgs();

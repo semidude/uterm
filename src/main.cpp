@@ -34,6 +34,7 @@ int main() {
                   "def COSTAM=koles;"
                   "ls | grep l | cat | grep $COSTAM > pliczek.txt;"
                   "ls | grep pliczek | cat;"
+                  "echo witam;"
                   "/usr/bin/head < pliczek.txt");
 
     auto lexer = std::make_unique<Lexer>(source);

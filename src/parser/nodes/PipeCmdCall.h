@@ -16,6 +16,7 @@ struct PipeCmdCall: public Node {
     std::unique_ptr<CmdCall> cmdCall;
     std::unique_ptr<PipeCmdCall> pipeChain;
 
+    int infd = STDIN_FILENO;
     int outfd = STDOUT_FILENO;
 
     void accept(Visitor *visitor) override {
