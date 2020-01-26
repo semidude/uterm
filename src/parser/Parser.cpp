@@ -175,12 +175,12 @@ std::unique_ptr<Redirection> Parser::parseRedirection() {
     if (checkToken(REDIRECT_LEFT)) {
         requireToken(REDIRECT_LEFT);
         auto value = parseValue();
-        return std::make_unique<Redirection>(std::move(value));
+        return std::make_unique<Redirection>(std::move(value), RedirectionType::LEFT);
     }
     else {
         requireToken(REDIRECT_RIGHT);
         auto value = parseValue();
-        return std::make_unique<Redirection>(std::move(value));
+        return std::make_unique<Redirection>(std::move(value), RedirectionType::RIGHT);
     }
 }
 

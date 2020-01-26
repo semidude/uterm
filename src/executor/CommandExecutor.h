@@ -14,7 +14,7 @@
 class CommandExecutor: public Visitor {
 private:
     Environment *env;
-    std::vector<Pipe> pipes;
+    std::vector<int> openDescriptors;
 
 public:
     explicit CommandExecutor(Environment *env) : env(env) {}

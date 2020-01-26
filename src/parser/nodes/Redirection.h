@@ -11,12 +11,18 @@
 #include <ostream>
 #include "Value.h"
 
-struct Redirection: public Node {
+enum RedirectionType {
+    LEFT, RIGHT
+};
+
+struct Redirection : public Node {
     std::unique_ptr<Value> value;
+    RedirectionType redirectionType;
 
-    explicit Redirection(std::unique_ptr<Value> value) : value(std::move(value)) {}
+    explicit Redirection(std::unique_ptr<Value> value, RedirectionType redirectionType)
+            : value(std::move(value)), redirectionType(redirectionType) {}
 
-    const char* getFileName() {
+    const char *getFileName() {
         return value->evaluate().c_str();
     }
 

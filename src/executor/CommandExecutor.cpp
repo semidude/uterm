@@ -17,7 +17,8 @@
 
 /**
  * This method is responsible for opening a file and redirecting command output to this file.
- * NOTE: The redirection is for the whole pipeline output (which practically means output of the last command in pipeline).
+ * NOTE: The RIGHT redirection is for the whole pipeline output (which practically means output of the last command in pipeline).
+ * BUT: The LEFT redirection is for the first cmd call in pipeline (first command in pipeline).
  *
  * The call order is: visit(RedirectedCmdCall) --> visit(PipeCmdCall) --> visit(CmdCall)
  */
@@ -25,9 +26,21 @@ void CommandExecutor::visit(RedirectedCmdCall *redirectedCmdCall) {
 
     if (redirectedCmdCall->redirection != nullptr) {
 
-        int fd = open(redirectedCmdCall->redirection->getFileName(), O_WRONLY | O_TRUNC | O_CREAT, 0666);
+        if (redirectedCmdCall->redirection->redirectionType == RedirectionType::RIGHT) {
+            int fd = open(redirectedCmdCall->redirection->getFileName(), O_WRONLY | O_TRUNC | O_CREAT, 0666);
 
-        redirectedCmdCall->pipeCmdCall->outfd = fd;
+            redirectedCmdCall->pipeCmdCall->outfd = fd;
+
+            openDescriptors.push_back(fd);
+        }
+        else {
+            int fd = open(redirectedCmdCall->redirection->getFileName(), O_RDONLY, 0666);
+
+            redirectedCmdCall->pipeCmdCall->cmdCall->infd = fd;
+
+            openDescriptors.push_back(fd);
+        }
+
     }
 }
 
@@ -53,7 +66,8 @@ void CommandExecutor::visit(PipeCmdCall *pipeCmdCall) {
         //and in case it's not the last one, let the descriptor pass through to the next one
         pipeCmdCall->pipeChain->outfd = pipeCmdCall->outfd;
 
-        pipes.emplace_back(fd[0], fd[1]);
+        openDescriptors.push_back(fd[0]);
+        openDescriptors.push_back(fd[1]);
     }
 }
 
@@ -80,13 +94,12 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
         }
 
         //close all inherited pipes
-        for (auto& pipe : pipes) {
-            close(pipe.infd);
-            close(pipe.outfd);
+        for (int fd : openDescriptors) {
+            close(fd);
         }
 
-        std::vector<const char*> args = cmdCall->evaluateArgs();
-        execv(cmdCall->cmd.c_str(), const_cast<char**>(&args[0]));
+        std::vector<const char *> args = cmdCall->evaluateArgs();
+        execv(cmdCall->cmd.c_str(), const_cast<char **>(&args[0]));
     }
 
     //in parent process close descriptors used in this command
