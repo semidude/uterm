@@ -8,6 +8,7 @@
 #include <string>
 #include <ostream>
 #include <utility>
+#include <vector>
 
 enum TokenDescriptor {
     NONE,
@@ -32,17 +33,17 @@ struct Token {
     TokenDescriptor descriptor;
     std::string value;
 
-    Token(TokenDescriptor descriptor, std::string value): descriptor(descriptor), value(std::move(value)) {}
+    Token(TokenDescriptor descriptor, std::string value) : descriptor(descriptor), value(std::move(value)) {}
 
-    explicit Token(TokenDescriptor descriptor): descriptor(descriptor) {}
+    explicit Token(TokenDescriptor descriptor) : descriptor(descriptor) {}
 
-    Token(): descriptor(TokenDescriptor::NONE) {}
+    Token() : descriptor(TokenDescriptor::NONE) {}
 
-    bool operator==(const Token& other) const {
+    bool operator==(const Token &other) const {
         return descriptor == other.descriptor && value == other.value;
     }
 
-    friend std::ostream& operator<<(std::ostream& out, const Token& token) {
+    friend std::ostream &operator<<(std::ostream &out, const Token &token) {
         return out << token.descriptor << "(" << token.value << ")";
     }
 

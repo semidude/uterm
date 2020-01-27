@@ -29,24 +29,35 @@ int main() {
 
     Environment env;
 
-    Source source("touch ziombel;"
-                  "touch koles;"
-                  "def COSTAM=koles;"
-                  "ls | grep l | cat | grep $COSTAM > pliczek.txt;"
-                  "ls | grep pliczek | cat;"
-                  "echo witam;"
-                  "/usr/bin/head < pliczek.txt");
+//    Source source("touch ziombel;"
+//                  "touch koles;"
+//                  "def COSTAM=koles;"
+//                  "ls | grep l | cat | grep $COSTAM > pliczek.txt;"
+//                  "ls | grep pliczek | cat;"
+//                  "echo witam;"
+//                  "/usr/bin/head < pliczek.txt");
 
-    auto lexer = std::make_unique<Lexer>(source);
 
-    auto parser = std::make_unique<Parser>(std::move(lexer));
+    Source source;
 
-    auto parseTree = parser->parse();
+    auto lexer = std::make_shared<Lexer>(source);
+
+    auto parser = std::make_unique<Parser>(lexer);
 
     auto executor = std::make_unique<CommandExecutor>(&env);
-    parseTree->accept(executor.get());
 
-    sleep(1);
+    std::string userInput;
+
+    while (userInput != "exit") {
+
+        getline(std::cin, userInput);
+
+        lexer->updateSource(userInput);
+
+        auto parseTree = parser->parse();
+
+        parseTree->accept(executor.get());
+    }
 
     return 0;
 }

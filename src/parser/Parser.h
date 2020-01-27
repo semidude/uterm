@@ -66,11 +66,11 @@
 class Parser {
 private:
     Token currentToken;
-    std::unique_ptr<Lexer> lexer;
+    std::shared_ptr<Lexer> lexer;
     std::set<std::string> systemCommands = { "ls", "grep", "touch", "cat", "echo" }; //TODO add more...
 
 public:
-    explicit Parser(std::unique_ptr<Lexer> lexer): lexer(std::move(lexer)) {}
+    explicit Parser(std::shared_ptr<Lexer> lexer): lexer(lexer) {}
 
     std::unique_ptr<ParseTree> parse();
 
@@ -101,6 +101,8 @@ private:
     Token requireToken(TokenDescriptor first, TokenDescriptor second, TokenDescriptor third);
 
     std::unique_ptr<Statement> parseStatement(const std::_MakeUniq<ParseTree>::__single_object &parseTree);
+
+    std::string getTokenName(const TokenDescriptor descriptor);
 };
 
 
