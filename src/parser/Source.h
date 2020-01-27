@@ -10,12 +10,19 @@
 
 class Source {
 private:
-    std::string source;
+    std::string source = "";
     int currentReadPosition = 0;
 
 public:
     Source(std::string source) {
         this->source = source;
+    }
+
+    Source() = default;
+
+    void updateSource(std::string source) {
+        this->source = source;
+        this->currentReadPosition = 0;
     }
 
     char getNextChar() {

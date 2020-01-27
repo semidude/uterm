@@ -8,6 +8,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 #include <memory>
 #include <zconf.h>
 #include "Node.h"
@@ -23,16 +24,15 @@ struct CmdCall: public Node {
     int infd = STDIN_FILENO;
     int outfd = STDOUT_FILENO;
 
-    std::vector<const char*> evaluateArgs() {
-        std::vector<const char*> evaluatedArgs;
+    std::vector<std::string> evaluateArgs() {
+        std::vector<std::string> evaluatedArgs;
 
-        evaluatedArgs.push_back("grep");
-        for (auto& arg : args) {
-            evaluatedArgs.push_back(arg->evaluate().c_str());
+        evaluatedArgs.push_back("dummy");
+        for (int i = 0; i < args.size(); i++) {
+            evaluatedArgs.push_back(args[i]->evaluate());
         }
-        evaluatedArgs.push_back(nullptr);
 
-        return std::move(evaluatedArgs);
+        return evaluatedArgs;
     }
 
     void accept(Visitor *visitor) override {

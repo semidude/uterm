@@ -98,8 +98,18 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
             close(fd);
         }
 
-        std::vector<const char *> args = cmdCall->evaluateArgs();
-        execv(cmdCall->cmd.c_str(), const_cast<char **>(&args[0]));
+        // reserve necessary space to prevent vector allocaton errors
+        std::vector<std::string> args = cmdCall->evaluateArgs();
+        std::vector<const char *> functionArgs;
+        functionArgs.reserve(args.size());
+
+        for(int i = 0 ; i < args.size() ; i ++) {
+            functionArgs.push_back(args[i].c_str());
+        }
+
+        functionArgs.push_back(nullptr);
+
+        execv(cmdCall->cmd.c_str(), const_cast<char **>(&functionArgs[0]));
     }
 
     //in parent process close descriptors used in this command

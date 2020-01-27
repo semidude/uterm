@@ -27,6 +27,10 @@ public:
 
     Token getNextToken();
 
+    bool dataMissing();
+
+    void updateSource(std::string data);
+
 private:
     void tryProcessingSpecialCharacter();
 
@@ -47,6 +51,7 @@ private:
     bool wasTokenTypeSelected();
 
     void readCharsUntilTerminalCharacter();
+
 };
 
 #endif //UTERM_LEXER_H

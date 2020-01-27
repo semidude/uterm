@@ -132,3 +132,11 @@ void Lexer::processString() { // if not already matched then string is only opti
 bool Lexer::wasTokenTypeSelected() {
     return currentToken.descriptor != NONE;
 }
+
+void Lexer::updateSource(std::string data) {
+    source.updateSource(data);
+}
+
+bool Lexer::dataMissing() {
+    return !source.dataAvailable();
+}

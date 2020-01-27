@@ -16,6 +16,10 @@ std::unique_ptr<ParseTree> Parser::parse() {
 
     auto parseTree = std::make_unique<ParseTree>();
 
+    if(lexer->dataMissing()) {
+        return parseTree;
+    }
+
     do {
         advance();
         parseTree->statements.push_back(parseStatement(parseTree));
@@ -28,8 +32,7 @@ std::unique_ptr<Statement> Parser::parseStatement(const std::_MakeUniq<ParseTree
 
     if (checkToken(DEF_KEYWORD)) {
         return parseVarDef();
-    }
-    else {
+    } else {
         return parseRedirectedCmdCall();
     }
 }
@@ -142,8 +145,7 @@ std::unique_ptr<Value> Parser::parseValue() {
 
     if (checkToken(VALUE_EXTRACTOR)) {
         return parseValueExtraction();
-    }
-    else {
+    } else {
         return parseLiteral();
     }
 }
@@ -157,8 +159,7 @@ std::unique_ptr<Value> Parser::parseValueExtraction() {
 std::unique_ptr<Value> Parser::parseLiteral() {
     if (checkToken(APOSTROPHE)) {
         return parseQuotedString();
-    }
-    else {
+    } else {
         std::string value = requireToken(WORD, NUMBER, STRING).value;
         return std::make_unique<LiteralValue>(value);
     }
@@ -176,8 +177,7 @@ std::unique_ptr<Redirection> Parser::parseRedirection() {
         requireToken(REDIRECT_LEFT);
         auto value = parseValue();
         return std::make_unique<Redirection>(std::move(value), RedirectionType::LEFT);
-    }
-    else {
+    } else {
         requireToken(REDIRECT_RIGHT);
         auto value = parseValue();
         return std::make_unique<Redirection>(std::move(value), RedirectionType::RIGHT);
@@ -219,7 +219,8 @@ bool Parser::checkToken(TokenDescriptor first, TokenDescriptor second, TokenDesc
 
 Token Parser::requireToken(TokenDescriptor descriptor) {
     if (!checkToken(descriptor)) {
-        throw std::runtime_error("unexpected token " + currentToken.toString());
+        throw std::runtime_error("unexpected token " + getTokenName(currentToken.descriptor) + " expected: " +
+                                 getTokenName(descriptor));
     }
     Token token = currentToken;
     advance();
@@ -228,7 +229,10 @@ Token Parser::requireToken(TokenDescriptor descriptor) {
 
 Token Parser::requireToken(TokenDescriptor first, TokenDescriptor second) {
     if (!checkToken(first, second)) {
-        throw std::runtime_error("unexpected token " + currentToken.toString());
+        throw std::runtime_error(
+                "unexpected token " + getTokenName(currentToken.descriptor) + " expected: " + getTokenName(first) +
+                " or " +
+                getTokenName(second));
     }
     Token token = currentToken;
     advance();
@@ -237,9 +241,23 @@ Token Parser::requireToken(TokenDescriptor first, TokenDescriptor second) {
 
 Token Parser::requireToken(TokenDescriptor first, TokenDescriptor second, TokenDescriptor third) {
     if (!checkToken(first, second, third)) {
-        throw std::runtime_error("unexpected token " + currentToken.toString());
+        throw std::runtime_error(
+                "unexpected token " + getTokenName(currentToken.descriptor) + " expected: " + getTokenName(first) +
+                " or " +
+                getTokenName(second) + " or " +
+                getTokenName(third));
     }
     Token token = currentToken;
     advance();
     return token;
 }
+
+std::string Parser::getTokenName(const TokenDescriptor descriptor) {
+    std::vector<std::string> names = {"NONE", "PIPE_SEPARATOR", "REDIRECT_LEFT", "REDIRECT_RIGHT", "ASSIGN_OPERATOR",
+                                      "VALUE_EXTRACTOR", "STATEMENT_SEPARATOR", "APOSTROPHE", "NEWLINE",
+                                      "HERE_DOCUMENT_MARKER", "EXPORT_KEYWORD0",
+                                      "DEF_KEYWORD", "NUMBER", "WORD", "STRING", "END"};
+
+    return names[descriptor];
+}
+
