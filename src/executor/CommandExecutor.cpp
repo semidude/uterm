@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include<sys/wait.h>
 #include <zconf.h>
 #include <fcntl.h>
 #include "CommandExecutor.h"
@@ -116,17 +117,20 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
 
         execv(cmdCall->cmd.c_str(), const_cast<char **>(&functionArgs[0]));
     }
+    else {
+        wait(nullptr);
 
-    //in parent process close descriptors used in this command
-    if (cmdCall->infd != STDIN_FILENO)
-        close(cmdCall->infd);
+        //in parent process close descriptors used in this command
+        if (cmdCall->infd != STDIN_FILENO)
+            close(cmdCall->infd);
 
-    if (cmdCall->outfd != STDOUT_FILENO)
-        close(cmdCall->outfd);
+        if (cmdCall->outfd != STDOUT_FILENO)
+            close(cmdCall->outfd);
 
 
-    if (cmdCall->hereDocument != nullptr) {
-        //TODO create here document and make it input for the CmdCall
+        if (cmdCall->hereDocument != nullptr) {
+            //TODO create here document and make it input for the CmdCall
+        }
     }
 }
 
