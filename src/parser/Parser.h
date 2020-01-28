@@ -17,6 +17,8 @@
 #include "Lexer.h"
 #include "nodes/RedirectedCmdCall.h"
 #include "nodes/VarDef.h"
+#include "nodes/here_document/HereDocumentLine.h"
+#include "nodes/here_document/HereDocumentElement.h"
 
 /**
  * STATEMENT = (REDIRECTED_CMD_CALL | VAR_DEF), [STATEMENT_SEPARATOR, STATEMENT]
@@ -103,6 +105,16 @@ private:
     std::unique_ptr<Statement> parseStatement(const std::_MakeUniq<ParseTree>::__single_object &parseTree);
 
     std::string getTokenName(const TokenDescriptor descriptor);
+
+    void advanceHereDocument();
+
+    std::shared_ptr<HereDocumentLine> parseHereDocumentLine();
+
+    std::shared_ptr<HereDocumentElement> parseHereDocumentElement();
+
+    bool dataAvailable();
+
+    void trimEndline();
 };
 
 

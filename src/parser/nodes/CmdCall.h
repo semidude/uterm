@@ -12,8 +12,8 @@
 #include <memory>
 #include <zconf.h>
 #include "Node.h"
-#include "HereDocument.h"
 #include "Value.h"
+#include "here_document/HereDocument.h"
 
 struct CmdCall: public Node {
 
@@ -27,7 +27,7 @@ struct CmdCall: public Node {
     std::vector<std::string> evaluateArgs() const {
         std::vector<std::string> evaluatedArgs;
 
-        evaluatedArgs.push_back("dummy");
+        evaluatedArgs.push_back("grep");
         for (int i = 0; i < args.size(); i++) {
             evaluatedArgs.push_back(args[i]->evaluate());
         }

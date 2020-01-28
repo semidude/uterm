@@ -11,12 +11,14 @@
 #include "nodes/VarValue.h"
 #include "nodes/VarDef.h"
 #include "nodes/Statement.h"
+#include "nodes/here_document/HereDocumentElement.h"
+#include "nodes/here_document/HereDocumentLine.h"
 
 std::unique_ptr<ParseTree> Parser::parse() {
 
     auto parseTree = std::make_unique<ParseTree>();
 
-    if(lexer->dataMissing()) {
+    if (lexer->dataMissing()) {
         return parseTree;
     }
 
@@ -115,16 +117,27 @@ bool Parser::notCmdCallTerminatingToken() {
 std::unique_ptr<HereDocument> Parser::parseHereDocument() {
 
     requireToken(HERE_DOCUMENT_MARKER);
-    std::string hdToken1 = requireToken(WORD).value;
-    requireToken(NEWLINE);
-    std::string hdContent = parseStringWithSpaces();
-    requireToken(NEWLINE);
-    std::string hdToken2 = requireToken(WORD).value;
 
-    if (hdToken1 != hdToken2)
-        throw std::runtime_error("Here Document begin and end tokens should be equal!");
+    std::string hdToken = requireToken(WORD).value;
 
-    return std::make_unique<HereDocument>(hdToken1, hdContent);
+    requireToken(NEWLINE, END);
+
+    std::vector<std::shared_ptr<HereDocumentLine>> hdContents;
+    std::shared_ptr<HereDocumentLine> hdLine;
+
+    advanceHereDocument();
+
+    while (currentToken.value != hdToken || dataAvailable()) {
+        hdLine = parseHereDocumentLine();
+
+        hdContents.push_back(std::move(hdLine));
+
+        advanceHereDocument();
+    }
+
+    advance();
+
+    return std::make_unique<HereDocument>(std::move(hdToken), std::move(hdContents));
 }
 
 std::string Parser::parseStringWithSpaces() {
@@ -205,6 +218,14 @@ void Parser::advance() {
     currentToken = lexer->getNextToken();
 }
 
+void Parser::advanceHereDocument() {
+    currentToken = lexer->getNextHereDocumentToken();
+}
+
+bool Parser::dataAvailable() {
+    return !lexer->endsWithNewLine();
+}
+
 bool Parser::checkToken(TokenDescriptor descriptor) {
     return currentToken.descriptor == descriptor;
 }
@@ -256,8 +277,39 @@ std::string Parser::getTokenName(const TokenDescriptor descriptor) {
     std::vector<std::string> names = {"NONE", "PIPE_SEPARATOR", "REDIRECT_LEFT", "REDIRECT_RIGHT", "ASSIGN_OPERATOR",
                                       "VALUE_EXTRACTOR", "STATEMENT_SEPARATOR", "APOSTROPHE", "NEWLINE",
                                       "HERE_DOCUMENT_MARKER", "EXPORT_KEYWORD0",
-                                      "DEF_KEYWORD", "NUMBER", "WORD", "STRING", "END"};
+                                      "DEF_KEYWORD", "NUMBER", "WORD", "STRING", "END",
+                                      "HERE_DOCUMENT_VARIABLE_EXTRACTION",
+                                      "HERE_DOCUMENT_CMD_CALL"};
 
     return names[descriptor];
+}
+
+std::shared_ptr<HereDocumentLine> Parser::parseHereDocumentLine() {
+    std::vector<std::shared_ptr<HereDocumentElement>> elements;
+
+    do {
+        auto element = parseHereDocumentElement();
+
+        elements.push_back(std::move(element));
+
+        advanceHereDocument();
+    } while (!checkToken(NEWLINE, END));
+
+    return std::make_shared<HereDocumentLine>(std::move(elements));
+}
+
+std::shared_ptr<HereDocumentElement> Parser::parseHereDocumentElement() {
+    if (checkToken(HERE_DOCUMENT_CMD_CALL)) {
+        return std::make_shared<HereDocumentElement>(currentToken.value, nullptr,
+                                                     std::string());
+    } else if (checkToken(HERE_DOCUMENT_VARIABLE_EXTRACTION)) {
+        std::shared_ptr<VarValue> variable = std::make_shared<VarValue>(currentToken.value);
+
+        return std::make_shared<HereDocumentElement>(std::string(), variable, std::string());
+
+    } else {
+        return std::make_shared<HereDocumentElement>(std::string(), nullptr,
+                                                     std::move(currentToken.value));
+    }
 }
 

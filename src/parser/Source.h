@@ -25,6 +25,10 @@ public:
         this->currentReadPosition = 0;
     }
 
+    void extendSource(std::string extension) {
+        this->source += extension;
+    }
+
     char getNextChar() {
         return source[currentReadPosition++];
     }
@@ -35,6 +39,12 @@ public:
 
     bool dataAvailable() {
         return currentReadPosition < source.size();
+    }
+
+    bool endsWithNewLine() {
+        int lastCharPos = source.size() - 1;
+
+        return lastCharPos == currentReadPosition && source[lastCharPos] == '\n';
     }
 };
 

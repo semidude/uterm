@@ -25,13 +25,19 @@ private:
 public:
     explicit Lexer(Source source);
 
+    bool endsWithNewLine();
+
     Token getNextToken();
+
+    Token getNextHereDocumentToken();
 
     bool dataMissing();
 
     void updateSource(std::string data);
 
 private:
+    void requestNextLine();
+
     void tryProcessingSpecialCharacter();
 
     void tryProcessingKeyword();
@@ -52,6 +58,17 @@ private:
 
     void readCharsUntilTerminalCharacter();
 
+    void tryProcessingHereDocumentCmdCallOrVariableExtraction();
+
+    void readCharsUntilSpecialCharOrEndOfLine();
+
+    void readCharWhileAlphaNumeric();
+
+    bool endsWithRightBracket();
+
+    void tryProcessingNewLine();
+
+    void readCharWhileAlphaNumericOrSlash();
 };
 
 #endif //UTERM_LEXER_H
