@@ -12,21 +12,23 @@
 
 enum TokenDescriptor {
     NONE,
-    PIPE_SEPARATOR,         // expected string : "|"
-    REDIRECT_LEFT,          // expected string : "<",
-    REDIRECT_RIGHT,         // expected string : ">",
-    ASSIGN_OPERATOR,        // expected string : "=",
-    VALUE_EXTRACTOR,        // expected string : "$",
-    STATEMENT_SEPARATOR,    // expected string : ";",
-    APOSTROPHE,             // expected string : "'",
-    NEWLINE,                // expected string : "\n",
-    HERE_DOCUMENT_MARKER,   // expected string : "<<",
-    EXPORT_KEYWORD,         // expected string : "export",
-    DEF_KEYWORD,            // expected string : "def"
-    NUMBER,                 // expected string : "\d+"
-    WORD,                   // expected string : "\w+",
-    STRING,                 // expected string : ".+",
-    END
+    PIPE_SEPARATOR,                      // expected string : "|"
+    REDIRECT_LEFT,                       // expected string : "<",
+    REDIRECT_RIGHT,                      // expected string : ">",
+    ASSIGN_OPERATOR,                     // expected string : "=",
+    VALUE_EXTRACTOR,                     // expected string : "$",
+    STATEMENT_SEPARATOR,                 // expected string : ";",
+    APOSTROPHE,                          // expected string : "'",
+    NEWLINE,                             // expected string : "\n",
+    HERE_DOCUMENT_MARKER,                // expected string : "<<",
+    EXPORT_KEYWORD,                      // expected string : "export",
+    DEF_KEYWORD,                         // expected string : "def"
+    NUMBER,                              // expected string : "\d+"
+    WORD,                                // expected string : "\w+",
+    STRING,                              // expected string : ".+",
+    END,
+    HERE_DOCUMENT_VARIABLE_EXTRACTION,   // expected string : "$(.+)"
+    HERE_DOCUMENT_CMD_CALL               // expected string : ")"
 };
 
 struct Token {
