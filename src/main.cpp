@@ -22,6 +22,8 @@ int main() {
 
     while (userInput != "exit") {
 
+        std::cout << "$ " << std::flush;
+
         getline(std::cin, userInput);
 
         lexer->updateSource(userInput);
