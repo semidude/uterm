@@ -204,6 +204,39 @@ void CommandExecutor::visit(HereDocumentElement *hereDocumentElement) {
         hereDocumentElement->text = variable.getValue();
     } else if (!hereDocumentElement -> cmdCall.empty()) {
 
+        int pipes[2];
+        pid_t pid;
+        char buffer[4096];
+
+        if (pipe(pipes) == -1)
+            throw std::runtime_error("Failed to create pipe required for program inside here document");
+
+        if ((pid = fork()) == -1)
+            throw std::runtime_error("Failed to execute program inside here document");
+
+        if (pid == 0) {
+
+            dup2(pipes[1], STDOUT_FILENO);
+            close(pipes[0]);
+            close(pipes[1]);
+            execl(hereDocumentElement->cmdCall.c_str(), hereDocumentElement->cmdCall.c_str(),  (char *) 0);
+
+        } else {
+
+            close(pipes[1]);
+            int nbytes = read(pipes[0], buffer, sizeof(buffer));
+
+            std::string programOutput = "";
+
+            for (int i = 0; i < nbytes; i++) {
+                programOutput += buffer[i];
+            }
+
+            std::cout << programOutput;
+
+            hereDocumentElement->text = programOutput;
+            wait(NULL);
+        }
     }
     //nothing to do here, probably...
 }
