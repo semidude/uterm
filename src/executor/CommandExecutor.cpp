@@ -16,7 +16,7 @@
 #include "../parser/nodes/VarValue.h"
 
 /**
- * This method is responsible for opening a file and redirecting command output to this file.
+ * This method is responsible for opening a file and redirecting command input/output from/to this file.
  * NOTE: The RIGHT redirection is for the whole pipeline output (which practically means output of the last command in pipeline).
  * BUT: The LEFT redirection is for the first cmd call in pipeline (first command in pipeline).
  *
@@ -47,7 +47,7 @@ void CommandExecutor::visit(RedirectedCmdCall *redirectedCmdCall) {
 
 /**
  * This method is responsible for creating a pipe and setting appropriate descriptors in CmdCall objects, which will
- * be later used for in dup2 calls in child processes of the commands (they will get spawned in visit(CmdCall) method).
+ * be later used in dup2 calls in child processes of the commands (they will get spawned in visit(CmdCall) method).
  *
  * The call order is: visit(RedirectedCmdCall) --> visit(PipeCmdCall) --> visit(CmdCall)
  */
@@ -82,7 +82,11 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
 
     if (fork() == 0) { //in child process
 
-        //TODO add all exported variables to the child process environment
+        std::vector<Variable> parentVariables = env->getEnvironmentVariables();
+        for(Variable v : parentVariables){
+            if(v.isExported())
+                setenv(v.getVarName().data(), v.getValue().data(), 0);
+        }
 
         if (cmdCall->infd != STDIN_FILENO) {
             //redirect standard input from infd
@@ -127,11 +131,14 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
 }
 
 void CommandExecutor::visit(VarDef *varDef) {
-    env->defineVariable(varDef->name, varDef->value->evaluate());
+    env->defineVariable(varDef->name, varDef->value->evaluate(), varDef->exported);
 }
 
 void CommandExecutor::visit(VarValue *varValue) {
-    varValue->simpleValue = env->getValueOf(varValue->name);
+    Variable variable = env->getVariableOfName(varValue->name);
+
+    varValue->simpleValue = variable.getValue();
+    varValue->exported = variable.isExported();
 }
 
 void CommandExecutor::visit(LiteralValue *literalValue) {

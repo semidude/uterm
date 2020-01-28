@@ -14,8 +14,9 @@ struct VarValue: public Value {
 
     std::string name;
     std::string simpleValue;
+    bool exported;
 
-    explicit VarValue(std::string name) : name(std::move(name)) {}
+    explicit VarValue(std::string name) : name(std::move(name)), exported(false) {}
 
     std::string evaluate() const override {
         return simpleValue;
