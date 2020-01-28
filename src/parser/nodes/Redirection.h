@@ -22,8 +22,8 @@ struct Redirection : public Node {
     explicit Redirection(std::unique_ptr<Value> value, RedirectionType redirectionType)
             : value(std::move(value)), redirectionType(redirectionType) {}
 
-    const char *getFileName() {
-        return value->evaluate().c_str();
+    std::string getFileName() {
+        return value->evaluate();
     }
 
     void accept(Visitor *visitor) override {
