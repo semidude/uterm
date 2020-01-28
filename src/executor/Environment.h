@@ -24,7 +24,7 @@ public:
             if(v.getVarName() == varName)
                 return v.getValue();
         }
-        return ""; //???
+        throw std::runtime_error("Variable with a given name not found in the environment!");
     }
 
     bool getExportedOf(const std::string& varName){
@@ -32,7 +32,7 @@ public:
             if(v.getVarName() == varName)
                 return v.getExported();
         }
-        return false; //???
+        throw std::runtime_error("Variable with a given name not found in the environment!");
     }
 
     std::vector<Variable> getEnvironmentVariables(){

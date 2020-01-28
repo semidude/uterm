@@ -81,8 +81,11 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
 
     if (fork() == 0) { //in child process
 
-        //TODO add all exported variables to the child process environment
-        //Environment childProcessEnvironment = this->getCommandExecutorEnvironment();
+        std::vector<Variable> parentVariables = env->getEnvironmentVariables();
+        for(Variable v : parentVariables){
+            if(v.getExported())
+                setenv(v.getVarName().data(), v.getValue().data(), 0);
+        }
 
         if (cmdCall->infd != STDIN_FILENO) {
             //redirect standard input from infd
