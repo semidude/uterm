@@ -67,7 +67,7 @@ class Parser {
 private:
     Token currentToken;
     std::shared_ptr<Lexer> lexer;
-    std::set<std::string> systemCommands = { "ls", "grep", "touch", "cat", "echo" }; //TODO add more...
+    std::set<std::string> systemCommands = { "ls", "grep", "touch", "cat", "echo", "rm" }; //TODO add more...
 
 public:
     explicit Parser(std::shared_ptr<Lexer> lexer): lexer(lexer) {}

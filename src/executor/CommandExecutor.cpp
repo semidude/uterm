@@ -7,6 +7,7 @@
 #include <zconf.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <fstream>
 #include "CommandExecutor.h"
 #include "../parser/nodes/VarDef.h"
 #include "../parser/nodes/RedirectedCmdCall.h"
@@ -114,6 +115,7 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
 
         if (cmdCall->cmd == "pwd") {
             printWorkingDirectory();
+            exit(0);
         }
         else {
             executeExternalProgram(cmdCall, args);
@@ -165,7 +167,7 @@ void CommandExecutor::printWorkingDirectory() const {
         std::cout << cwd << std::endl;
     }
     else {
-        std::cerr << "pwd error occured" << std::endl;
+        std::cout << "pwd error occured" << std::endl;
     }
 }
 
