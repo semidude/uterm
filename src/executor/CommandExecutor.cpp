@@ -3,8 +3,10 @@
 //
 
 #include <iostream>
+#include <unistd.h>
 #include <zconf.h>
 #include <fcntl.h>
+#include <sys/wait.h>
 #include "CommandExecutor.h"
 #include "../parser/nodes/VarDef.h"
 #include "../parser/nodes/RedirectedCmdCall.h"
@@ -35,8 +37,7 @@ void CommandExecutor::visit(RedirectedCmdCall *redirectedCmdCall) {
             redirectedCmdCall->pipeCmdCall->outfd = fd;
 
             openDescriptors.push_back(fd);
-        }
-        else {
+        } else {
             int fd = open(redirectedCmdCall->redirection->getFileName().c_str(), O_RDONLY, 0666);
 
             redirectedCmdCall->pipeCmdCall->cmdCall->infd = fd;
@@ -147,8 +148,41 @@ void CommandExecutor::visit(HereDocument *hereDocument) {
 void CommandExecutor::visit(HereDocumentElement *hereDocumentElement) {
     if (hereDocumentElement->variable != nullptr) {
         hereDocumentElement->text = env->getValueOf(hereDocumentElement->variable->name);
-    } else if (!hereDocumentElement -> cmdCall.empty()) {
+    } else if (!hereDocumentElement->cmdCall.empty()) {
 
+        int pipes[2];
+        pid_t pid;
+        char buffer[4096];
+
+        if (pipe(pipes) == -1)
+            throw std::runtime_error("Failed to create pipe required for program inside here document");
+
+        if ((pid = fork()) == -1)
+            throw std::runtime_error("Failed to execute program inside here document");
+
+        if (pid == 0) {
+
+            dup2(pipes[1], STDOUT_FILENO);
+            close(pipes[0]);
+            close(pipes[1]);
+            execl(hereDocumentElement->cmdCall.c_str(), hereDocumentElement->cmdCall.c_str(),  (char *) 0);
+
+        } else {
+
+            close(pipes[1]);
+            int nbytes = read(pipes[0], buffer, sizeof(buffer));
+
+            std::string programOutput = "";
+
+            for (int i = 0; i < nbytes; i++) {
+                programOutput += buffer[i];
+            }
+
+            std::cout << programOutput;
+
+            hereDocumentElement->text = programOutput;
+            wait(NULL);
+        }
     }
     //nothing to do here, probably...
 }

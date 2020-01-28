@@ -170,7 +170,7 @@ void Lexer::tryProcessingHereDocumentCmdCallOrVariableExtraction() {
         readNextChar();
 
         if (currentCharacter == '(') {
-            readCharWhileAlphaNumeric();
+            readCharWhileAlphaNumericOrSlash();
 
             if (endsWithRightBracket()) {
                 currentTokenValue = currentTokenValue.substr(2, currentTokenValue.length() - 3);
@@ -221,4 +221,10 @@ void Lexer::tryProcessingNewLine() {
     if(currentCharacter == '\n') {
         currentToken = Token(NEWLINE);
     }
+}
+
+void Lexer::readCharWhileAlphaNumericOrSlash() {
+    do {
+        readNextChar();
+    } while (source.dataAvailable() && (isalnum(source.peekNextChar()) || source.peekNextChar() == '/'));
 }

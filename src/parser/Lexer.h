@@ -68,6 +68,7 @@ private:
 
     void tryProcessingNewLine();
 
+    void readCharWhileAlphaNumericOrSlash();
 };
 
 #endif //UTERM_LEXER_H
