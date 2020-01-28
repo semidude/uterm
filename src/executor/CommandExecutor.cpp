@@ -27,14 +27,15 @@ void CommandExecutor::visit(RedirectedCmdCall *redirectedCmdCall) {
     if (redirectedCmdCall->redirection != nullptr) {
 
         if (redirectedCmdCall->redirection->redirectionType == RedirectionType::RIGHT) {
-            int fd = open(redirectedCmdCall->redirection->getFileName(), O_WRONLY | O_TRUNC | O_CREAT, 0666);
+            int fd = open(redirectedCmdCall->redirection->getFileName().c_str(), O_WRONLY | O_TRUNC | O_CREAT, 0666);
 
+            redirectedCmdCall->pipeCmdCall->cmdCall->outfd = fd;
             redirectedCmdCall->pipeCmdCall->outfd = fd;
 
             openDescriptors.push_back(fd);
         }
         else {
-            int fd = open(redirectedCmdCall->redirection->getFileName(), O_RDONLY, 0666);
+            int fd = open(redirectedCmdCall->redirection->getFileName().c_str(), O_RDONLY, 0666);
 
             redirectedCmdCall->pipeCmdCall->cmdCall->infd = fd;
 
@@ -93,12 +94,12 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
             dup2(cmdCall->outfd, STDOUT_FILENO);
         }
 
-        //close all inherited pipes
+        //close all inherited descriptors
         for (int fd : openDescriptors) {
             close(fd);
         }
 
-        // reserve necessary space to prevent vector allocaton errors
+        // reserve necessary space to prevent vector allocation errors
         std::vector<std::string> args = cmdCall->evaluateArgs();
         std::vector<const char *> functionArgs;
         functionArgs.reserve(args.size());
@@ -113,8 +114,11 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
     }
 
     //in parent process close descriptors used in this command
-    if (cmdCall->infd != STDIN_FILENO) close(cmdCall->infd);
-    if (cmdCall->outfd != STDOUT_FILENO) close(cmdCall->outfd);
+    if (cmdCall->infd != STDIN_FILENO)
+        close(cmdCall->infd);
+
+    if (cmdCall->outfd != STDOUT_FILENO)
+        close(cmdCall->outfd);
 
 
     if (cmdCall->hereDocument != nullptr) {
