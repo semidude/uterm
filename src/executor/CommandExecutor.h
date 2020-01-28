@@ -34,6 +34,10 @@ public:
     void visit(VarValue *varValue) override;
 
     void visit(LiteralValue *literalValue) override;
+
+//    Environment *getCommandExecutorEnvironment(){
+//        return env;
+//    }
 };
 
 

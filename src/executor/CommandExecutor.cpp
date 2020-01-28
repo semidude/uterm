@@ -46,7 +46,7 @@ void CommandExecutor::visit(RedirectedCmdCall *redirectedCmdCall) {
 
 /**
  * This method is responsible for creating a pipe and setting appropriate descriptors in CmdCall objects, which will
- * be later used for in dup2 calls in child processes of the commands (they will get spawned in visit(CmdCall) method).
+ * be later used in dup2 calls in child processes of the commands (they will get spawned in visit(CmdCall) method).
  *
  * The call order is: visit(RedirectedCmdCall) --> visit(PipeCmdCall) --> visit(CmdCall)
  */
@@ -82,6 +82,7 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
     if (fork() == 0) { //in child process
 
         //TODO add all exported variables to the child process environment
+        //Environment childProcessEnvironment = this->getCommandExecutorEnvironment();
 
         if (cmdCall->infd != STDIN_FILENO) {
             //redirect standard input from infd
@@ -123,11 +124,12 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
 }
 
 void CommandExecutor::visit(VarDef *varDef) {
-    env->defineVariable(varDef->name, varDef->value->evaluate());
+    env->defineVariable(varDef->name, varDef->value->evaluate(), varDef->exported);
 }
 
 void CommandExecutor::visit(VarValue *varValue) {
     varValue->simpleValue = env->getValueOf(varValue->name);
+    varValue->exported = env->getExportedOf(varValue->name);
 }
 
 void CommandExecutor::visit(LiteralValue *literalValue) {

@@ -8,18 +8,35 @@
 
 #include <map>
 #include <utility>
+#include "../parser/nodes/Variable.h"
 
 class Environment {
 private:
-    std::map<std::string, std::string> variables;
+    std::vector<Variable> variables;
 
 public:
-    void defineVariable(const std::string& name, std::string value) {
-        variables[name] = std::move(value);
+    void defineVariable(const std::string& name, std::string value, bool exported) {
+        variables.push_back(Variable(name, value, exported));
     }
 
     std::string getValueOf(const std::string& varName) {
-        return variables[varName];
+        for(Variable v : variables){
+            if(v.getVarName() == varName)
+                return v.getValue();
+        }
+        return ""; //???
+    }
+
+    bool getExportedOf(const std::string& varName){
+        for(Variable v : variables){
+            if(v.getVarName() == varName)
+                return v.getExported();
+        }
+        return false; //???
+    }
+
+    std::vector<Variable> getEnvironmentVariables(){
+        return variables;
     }
 };
 
