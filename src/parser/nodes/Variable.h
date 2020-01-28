@@ -14,6 +14,7 @@ private:
     std::string value;
     bool exported;
 public:
+    Variable() : name(""), value(""), exported(false) {}
     Variable(std::string name, std::string value, bool exported) : name(std::move(name)), value(std::move(value)), exported(exported){}
 
     std::string getVarName(){
@@ -22,7 +23,7 @@ public:
     std::string getValue(){
         return value;
     }
-    bool getExported(){
+    bool isExported(){
         return exported;
     }
 };

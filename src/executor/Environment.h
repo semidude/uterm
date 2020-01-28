@@ -12,31 +12,27 @@
 
 class Environment {
 private:
-    std::vector<Variable> variables;
+    std::map<std::string, Variable> variables;
 
 public:
-    void defineVariable(const std::string& name, std::string value, bool exported) {
-        variables.push_back(Variable(name, value, exported));
+    void defineVariable(const std::string &name, std::string value, bool exported) {
+        variables[name] = (Variable(name, std::move(value), exported));
     }
 
-    std::string getValueOf(const std::string& varName) {
-        for(Variable v : variables){
-            if(v.getVarName() == varName)
-                return v.getValue();
+    Variable getVariableOfName(const std::string &varName) {
+        if (variables.count(varName) == 0) {
+            throw std::runtime_error("Variable with a given name not found in the environment!");
         }
-        throw std::runtime_error("Variable with a given name not found in the environment!");
-    }
-
-    bool getExportedOf(const std::string& varName){
-        for(Variable v : variables){
-            if(v.getVarName() == varName)
-                return v.getExported();
-        }
-        throw std::runtime_error("Variable with a given name not found in the environment!");
+        return variables[varName];
     }
 
     std::vector<Variable> getEnvironmentVariables(){
-        return variables;
+        std::vector<Variable> v;
+
+        for(const std::pair<std::string, Variable>& pair : variables) {
+            v.push_back(pair.second);
+        }
+        return v;
     }
 };
 

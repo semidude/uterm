@@ -16,7 +16,7 @@
 #include "../parser/nodes/VarValue.h"
 
 /**
- * This method is responsible for opening a file and redirecting command output to this file.
+ * This method is responsible for opening a file and redirecting command input/output from/to this file.
  * NOTE: The RIGHT redirection is for the whole pipeline output (which practically means output of the last command in pipeline).
  * BUT: The LEFT redirection is for the first cmd call in pipeline (first command in pipeline).
  *
@@ -84,7 +84,7 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
 
         std::vector<Variable> parentVariables = env->getEnvironmentVariables();
         for(Variable v : parentVariables){
-            if(v.getExported())
+            if(v.isExported())
                 setenv(v.getVarName().data(), v.getValue().data(), 0);
         }
 
@@ -135,8 +135,10 @@ void CommandExecutor::visit(VarDef *varDef) {
 }
 
 void CommandExecutor::visit(VarValue *varValue) {
-    varValue->simpleValue = env->getValueOf(varValue->name);
-    varValue->exported = env->getExportedOf(varValue->name);
+    Variable variable = env->getVariableOfName(varValue->name);
+
+    varValue->simpleValue = variable.getValue();
+    varValue->exported = variable.isExported();
 }
 
 void CommandExecutor::visit(LiteralValue *literalValue) {
