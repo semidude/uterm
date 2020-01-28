@@ -17,6 +17,8 @@ struct HereDocument: public Node {
 
     std::vector<std::shared_ptr<HereDocumentLine>> hdContents;
 
+    std::string finalContent;
+
     HereDocument(std::string hdToken, std::vector<std::shared_ptr<HereDocumentLine>> contents) : hdToken(std::move(hdToken)), hdContents(std::move(contents)) {}
 
     void accept(Visitor *visitor) override {

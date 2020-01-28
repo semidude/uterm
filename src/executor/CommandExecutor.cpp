@@ -82,6 +82,24 @@ void CommandExecutor::visit(PipeCmdCall *pipeCmdCall) {
  * The call order is: visit(RedirectedCmdCall) --> visit(PipeCmdCall) --> visit(CmdCall)
  */
 void CommandExecutor::visit(CmdCall *cmdCall) {
+    if (cmdCall->hereDocument != nullptr) {
+
+        int fd[2];
+
+        if (pipe(fd) == -1)
+            throw std::runtime_error("Failed to create pipe required for program inside here document");
+
+        const char* content = cmdCall->hereDocument->finalContent.c_str();
+        int size = cmdCall->hereDocument->finalContent.size();
+
+
+        cmdCall->infd = fd[0];
+
+        write(fd[1], content, size);
+
+        openDescriptors.push_back(fd[0]);
+        openDescriptors.push_back(fd[1]);
+    }
 
     if (fork() == 0) { //in child process
 
@@ -122,11 +140,6 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
 
     if (cmdCall->outfd != STDOUT_FILENO)
         close(cmdCall->outfd);
-
-
-    if (cmdCall->hereDocument != nullptr) {
-        //TODO create here document and make it input for the CmdCall
-    }
 }
 
 void CommandExecutor::visit(VarDef *varDef) {
@@ -142,7 +155,18 @@ void CommandExecutor::visit(LiteralValue *literalValue) {
 }
 
 void CommandExecutor::visit(HereDocument *hereDocument) {
-    //nothing to do here, probably...
+    std::string finalContent = "";
+
+    for(const auto& line : hereDocument->hdContents) {
+
+        for(auto & lineContent : line->lineContents) {
+            finalContent += lineContent->text;
+        }
+
+        finalContent += '\n';
+    }
+
+    hereDocument->finalContent = finalContent;
 }
 
 void CommandExecutor::visit(HereDocumentElement *hereDocumentElement) {
@@ -177,8 +201,6 @@ void CommandExecutor::visit(HereDocumentElement *hereDocumentElement) {
             for (int i = 0; i < nbytes; i++) {
                 programOutput += buffer[i];
             }
-
-            std::cout << programOutput;
 
             hereDocumentElement->text = programOutput;
             wait(NULL);
