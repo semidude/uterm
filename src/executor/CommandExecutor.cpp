@@ -38,8 +38,7 @@ void CommandExecutor::visit(RedirectedCmdCall *redirectedCmdCall) {
             redirectedCmdCall->pipeCmdCall->outfd = fd;
 
             openDescriptors.push_back(fd);
-        }
-        else {
+        } else {
             int fd = open(redirectedCmdCall->redirection->getFileName().c_str(), O_RDONLY, 0666);
 
             redirectedCmdCall->pipeCmdCall->cmdCall->infd = fd;
@@ -84,6 +83,24 @@ void CommandExecutor::visit(PipeCmdCall *pipeCmdCall) {
  * The call order is: visit(RedirectedCmdCall) --> visit(PipeCmdCall) --> visit(CmdCall)
  */
 void CommandExecutor::visit(CmdCall *cmdCall) {
+    if (cmdCall->hereDocument != nullptr) {
+
+        int fd[2];
+
+        if (pipe(fd) == -1)
+            throw std::runtime_error("Failed to create pipe required for program inside here document");
+
+        const char *content = cmdCall->hereDocument->finalContent.c_str();
+        int size = cmdCall->hereDocument->finalContent.size();
+
+
+        cmdCall->infd = fd[0];
+
+        write(fd[1], content, size);
+
+        openDescriptors.push_back(fd[0]);
+        openDescriptors.push_back(fd[1]);
+    }
 
     std::vector<const char *> args = getArgs(cmdCall);
 
@@ -95,8 +112,8 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
     if (fork() == 0) { //in child process
 
         std::vector<Variable> parentVariables = env->getEnvironmentVariables();
-        for(Variable v : parentVariables){
-            if(v.isExported())
+        for (Variable v : parentVariables) {
+            if (v.isExported())
                 setenv(v.getVarName().data(), v.getValue().data(), 0);
         }
 
@@ -118,13 +135,11 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
         if (cmdCall->cmd == "pwd") {
             printWorkingDirectory();
             exit(0);
-        }
-        else {
+        } else {
             executeExternalProgram(cmdCall, args);
         }
 
-    }
-    else {
+    } else {
         wait(nullptr);
 
         //in parent process close descriptors used in this command
@@ -133,13 +148,9 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
 
         if (cmdCall->outfd != STDOUT_FILENO)
             close(cmdCall->outfd);
-
-
-        if (cmdCall->hereDocument != nullptr) {
-            //TODO create here document and make it input for the CmdCall
-        }
     }
 }
+
 
 std::vector<const char *> CommandExecutor::getArgs(const CmdCall *cmdCall) const {
 
@@ -149,7 +160,7 @@ std::vector<const char *> CommandExecutor::getArgs(const CmdCall *cmdCall) const
     // reserve necessary space to prevent vector allocation errors
     functionArgs.reserve(args.size());
 
-    for(int i = 0 ; i < args.size() ; i ++) {
+    for (int i = 0; i < args.size(); i++) {
         functionArgs.push_back(args[i].c_str());
     }
 
@@ -167,13 +178,12 @@ void CommandExecutor::printWorkingDirectory() const {
 
     if (getcwd(cwd, sizeof(cwd)) != nullptr) {
         std::cout << cwd << std::endl;
-    }
-    else {
+    } else {
         std::cout << "pwd error occured" << std::endl;
     }
 }
 
-void CommandExecutor::executeExternalProgram(const CmdCall *cmdCall, std::vector<const char*> args) const {
+void CommandExecutor::executeExternalProgram(const CmdCall *cmdCall, std::vector<const char *> args) const {
 
     execv(cmdCall->cmd.c_str(), const_cast<char **>(&args[0]));
 }
@@ -194,7 +204,18 @@ void CommandExecutor::visit(LiteralValue *literalValue) {
 }
 
 void CommandExecutor::visit(HereDocument *hereDocument) {
-    //nothing to do here, probably...
+    std::string finalContent = "";
+
+    for (const auto &line : hereDocument->hdContents) {
+
+        for (auto &lineContent : line->lineContents) {
+            finalContent += lineContent->text;
+        }
+
+        finalContent += '\n';
+    }
+
+    hereDocument->finalContent = finalContent;
 }
 
 void CommandExecutor::visit(HereDocumentElement *hereDocumentElement) {
@@ -202,7 +223,7 @@ void CommandExecutor::visit(HereDocumentElement *hereDocumentElement) {
         Variable variable = env->getVariableOfName(hereDocumentElement->variable->name);
 
         hereDocumentElement->text = variable.getValue();
-    } else if (!hereDocumentElement -> cmdCall.empty()) {
+    } else if (!hereDocumentElement->cmdCall.empty()) {
 
         int pipes[2];
         pid_t pid;
@@ -219,7 +240,7 @@ void CommandExecutor::visit(HereDocumentElement *hereDocumentElement) {
             dup2(pipes[1], STDOUT_FILENO);
             close(pipes[0]);
             close(pipes[1]);
-            execl(hereDocumentElement->cmdCall.c_str(), hereDocumentElement->cmdCall.c_str(),  (char *) 0);
+            execl(hereDocumentElement->cmdCall.c_str(), hereDocumentElement->cmdCall.c_str(), (char *) 0);
 
         } else {
 
@@ -231,8 +252,6 @@ void CommandExecutor::visit(HereDocumentElement *hereDocumentElement) {
             for (int i = 0; i < nbytes; i++) {
                 programOutput += buffer[i];
             }
-
-            std::cout << programOutput;
 
             hereDocumentElement->text = programOutput;
             wait(NULL);
