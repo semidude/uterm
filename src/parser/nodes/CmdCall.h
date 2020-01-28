@@ -24,7 +24,7 @@ struct CmdCall: public Node {
     int infd = STDIN_FILENO;
     int outfd = STDOUT_FILENO;
 
-    std::vector<std::string> evaluateArgs() {
+    std::vector<std::string> evaluateArgs() const {
         std::vector<std::string> evaluatedArgs;
 
         evaluatedArgs.push_back("dummy");

@@ -6,6 +6,7 @@
 #include<sys/wait.h>
 #include <zconf.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include "CommandExecutor.h"
 #include "../parser/nodes/VarDef.h"
 #include "../parser/nodes/RedirectedCmdCall.h"
@@ -81,6 +82,13 @@ void CommandExecutor::visit(PipeCmdCall *pipeCmdCall) {
  */
 void CommandExecutor::visit(CmdCall *cmdCall) {
 
+    std::vector<const char *> args = getArgs(cmdCall);
+
+    if (cmdCall->cmd == "cd") {
+        changeDirectory(args);
+        return;
+    }
+
     if (fork() == 0) { //in child process
 
         std::vector<Variable> parentVariables = env->getEnvironmentVariables();
@@ -104,18 +112,13 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
             close(fd);
         }
 
-        // reserve necessary space to prevent vector allocation errors
-        std::vector<std::string> args = cmdCall->evaluateArgs();
-        std::vector<const char *> functionArgs;
-        functionArgs.reserve(args.size());
-
-        for(int i = 0 ; i < args.size() ; i ++) {
-            functionArgs.push_back(args[i].c_str());
+        if (cmdCall->cmd == "pwd") {
+            printWorkingDirectory();
+        }
+        else {
+            executeExternalProgram(cmdCall, args);
         }
 
-        functionArgs.push_back(nullptr);
-
-        execv(cmdCall->cmd.c_str(), const_cast<char **>(&functionArgs[0]));
     }
     else {
         wait(nullptr);
@@ -132,6 +135,43 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
             //TODO create here document and make it input for the CmdCall
         }
     }
+}
+
+std::vector<const char *> CommandExecutor::getArgs(const CmdCall *cmdCall) const {
+
+    std::vector<std::string> args = cmdCall->evaluateArgs();
+    std::vector<const char *> functionArgs;
+
+    // reserve necessary space to prevent vector allocation errors
+    functionArgs.reserve(args.size());
+
+    for(int i = 0 ; i < args.size() ; i ++) {
+        functionArgs.push_back(args[i].c_str());
+    }
+
+    functionArgs.push_back(nullptr);
+    return functionArgs;
+}
+
+void CommandExecutor::changeDirectory(std::vector<const char *> args) const {
+
+    chdir(args[1]);
+}
+
+void CommandExecutor::printWorkingDirectory() const {
+    char cwd[PATH_MAX];
+
+    if (getcwd(cwd, sizeof(cwd)) != nullptr) {
+        std::cout << cwd << std::endl;
+    }
+    else {
+        std::cerr << "pwd error occured" << std::endl;
+    }
+}
+
+void CommandExecutor::executeExternalProgram(const CmdCall *cmdCall, std::vector<const char*> args) const {
+
+    execv(cmdCall->cmd.c_str(), const_cast<char **>(&args[0]));
 }
 
 void CommandExecutor::visit(VarDef *varDef) {

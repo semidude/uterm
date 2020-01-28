@@ -35,9 +35,13 @@ public:
 
     void visit(LiteralValue *literalValue) override;
 
-//    Environment *getCommandExecutorEnvironment(){
-//        return env;
-//    }
+    void printWorkingDirectory() const;
+
+    void executeExternalProgram(const CmdCall *cmdCall, std::vector<const char*> args) const;
+
+    void changeDirectory(std::vector<const char *> args) const;
+
+    std::vector<const char *> getArgs(const CmdCall *cmdCall) const;
 };
 
 
