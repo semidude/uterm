@@ -10,18 +10,32 @@ struct RedirectedCmdCall;
 struct PipeCmdCall;
 struct CmdCall;
 struct HereDocument;
+struct HereDocumentLine;
+struct HereDocumentElement;
+struct HereDocument;
 struct LiteralValue;
 struct Redirection;
 struct VarValue;
 
 struct Visitor {
     virtual void visit(RedirectedCmdCall *redirectedCmdCall) { /*no nop*/ }
+
     virtual void visit(PipeCmdCall *pipeCmdCall) { /*no nop*/ }
+
     virtual void visit(CmdCall *cmdCall) { /*no nop*/ }
+
     virtual void visit(HereDocument *hereDocument) { /*no nop*/ }
+
+    virtual void visit(HereDocumentLine *hereDocumentLine) { /*no nop*/ }
+
+    virtual void visit(HereDocumentElement *hereDocumentElement) { /*no nop*/ }
+
     virtual void visit(Redirection *redirection) { /*no nop*/ }
+
     virtual void visit(VarDef *varDef) { /*no nop*/ }
+
     virtual void visit(VarValue *varValue) { /*no nop*/ }
+
     virtual void visit(LiteralValue *literalValue) { /*no nop*/ }
 };
 

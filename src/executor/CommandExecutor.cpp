@@ -10,7 +10,9 @@
 #include "../parser/nodes/RedirectedCmdCall.h"
 #include "../parser/nodes/PipeCmdCall.h"
 #include "../parser/nodes/CmdCall.h"
-#include "../parser/nodes/HereDocument.h"
+#include "../parser/nodes/here_document/HereDocument.h"
+#include "../parser/nodes/here_document/HereDocumentLine.h"
+#include "../parser/nodes/here_document/HereDocumentElement.h"
 #include "../parser/nodes/Redirection.h"
 #include "../parser/nodes/LiteralValue.h"
 #include "../parser/nodes/VarValue.h"
@@ -104,7 +106,7 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
         std::vector<const char *> functionArgs;
         functionArgs.reserve(args.size());
 
-        for(int i = 0 ; i < args.size() ; i ++) {
+        for (int i = 0; i < args.size(); i++) {
             functionArgs.push_back(args[i].c_str());
         }
 
@@ -139,6 +141,19 @@ void CommandExecutor::visit(LiteralValue *literalValue) {
 }
 
 void CommandExecutor::visit(HereDocument *hereDocument) {
+    //nothing to do here, probably...
+}
+
+void CommandExecutor::visit(HereDocumentElement *hereDocumentElement) {
+    if (hereDocumentElement->variable != nullptr) {
+        hereDocumentElement->text = env->getValueOf(hereDocumentElement->variable->name);
+    } else if (!hereDocumentElement -> cmdCall.empty()) {
+
+    }
+    //nothing to do here, probably...
+}
+
+void CommandExecutor::visit(HereDocumentLine *hereDocumentLine) {
     //nothing to do here, probably...
 }
 

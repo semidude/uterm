@@ -27,6 +27,10 @@ public:
 
     void visit(HereDocument *hereDocument) override;
 
+    void visit(HereDocumentLine *hereDocumentLine) override;
+
+    void visit(HereDocumentElement *hereDocumentElement) override;
+
     void visit(Redirection *redirection) override;
 
     void visit(VarDef *varDef) override;
