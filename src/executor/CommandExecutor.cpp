@@ -140,7 +140,8 @@ void CommandExecutor::visit(CmdCall *cmdCall) {
         }
 
     } else {
-        wait(nullptr);
+        if (cmdCall->hereDocument == nullptr)
+            wait(nullptr);
 
         //in parent process close descriptors used in this command
         if (cmdCall->infd != STDIN_FILENO)
