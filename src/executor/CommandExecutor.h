@@ -9,7 +9,6 @@
 #include <vector>
 #include "../parser/Visitor.h"
 #include "Environment.h"
-#include "Pipe.h"
 
 class CommandExecutor: public Visitor {
 private:
